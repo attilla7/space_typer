@@ -1,5 +1,5 @@
 export function displayCurrentVersion() {
-    fetch('versions.json')
+    fetch('version.json')
         .then(response => response.json())
         .then(data => {
             const versionElement = document.getElementById('currentVersion');
@@ -14,7 +14,7 @@ export function showVersionInfo() {
     document.getElementById('startScreen').style.display = 'none';
     document.getElementById('versionDetails').style.display = 'block';
 
-    fetch('versions.json')
+    fetch('version.json')
         .then(response => response.json())
         .then(data => {
             const versionHistory = document.getElementById('versionHistory');
