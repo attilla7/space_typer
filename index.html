@@ -2,44 +2,36 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Space Typer</title>
     <link rel="stylesheet" href="style.css">
+    <script type="module" src="main.js" defer></script>
 </head>
 <body>
-    <!-- Kezdőképernyő -->
     <div id="startScreen">
-        <div id="versionSection">
-            <p id="currentVersion" onclick="showVersionInfo()"><span id="versionNumber">Verzió: </span><span id="currentVersion"></span></p>
-        </div>
         <h1>Space Typer</h1>
-        <div id="levelSelection">
-            <button data-level="1">Szint 1</button>
-            <button data-level="6">Szint 6</button>
-            <button data-level="11">Szint 11</button>
-            <button data-level="16">Szint 16</button>
-            <button data-level="21">Szint 21</button>
+        <button id="startLevel1">Első szint</button>
+        <button id="startLevel2">Második szint</button>
+        <button id="startLevel3">Harmadik szint</button>
+        <div id="versionSection">
+            <span id="versionNumber">Verzió:</span>
+            <p id="currentVersion"></p>
         </div>
     </div>
 
-    <!-- Játék képernyő -->
-    <div id="game" style="display:none;">
-        <div id="background"></div>
+    <div id="game" style="display: none;">
+        <h2>Space Typer Játék</h2>
+        <p id="targetText">Nyomd meg: </p>
         <div id="spaceship"></div>
-        <div id="targetText"></div>
-        <div id="scoreDisplay">Pontszám: 0</div>
-        <div id="tasksLeftDisplay">Feladatok hátra: 5</div>
-        <div id="levelDisplay">Szint: 1</div>
+        <p id="scoreDisplay">Pontszám: 0</p>
+        <p id="tasksDisplay">Hátralévő feladatok: </p>
         <button id="exitButton">Kilépés</button>
     </div>
 
-    <!-- Verzióinformációs oldal -->
-    <div id="versionInfo" style="display:none;">
-        <h2>Verzióinformációk</h2>
-        <ul id="versionList"></ul>
-        <button id="backButton">Vissza a kezdőoldalra</button>
+    <div id="versionDetails" style="display: none;">
+        <h2>Verzió információk</h2>
+        <div id="versionHistory"></div>
+        <button id="backButton">Vissza</button>
     </div>
-
-    <!-- Moduláris JavaScript importok -->
-    <script src="main.js" type="module"></script>
 </body>
 </html>

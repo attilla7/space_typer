@@ -1,46 +1,18 @@
+import { startGame, exitGame, initializeGame } from './game.js';
 import { displayCurrentVersion, showVersionInfo, backToStart } from './version.js';
-import { startGame } from './game.js';
 
-// DOMContentLoaded esemény a biztos betöltéshez
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // Kezdőoldali elemek
-    const versionDisplay = document.getElementById('currentVersion');
-    const versionInfoPage = document.getElementById('versionInfoPage');
-    const startScreen = document.getElementById('startScreen');
-    const gameContainer = document.getElementById('game');
-    const versionElement = document.getElementById('currentVersion');
- 
-    if (versionElement) {
-        versionElement.addEventListener('click', showVersionInfo);
-    }
-    
-    // Verzióinformáció kijelzése kezdőoldalon
-    if (versionDisplay) {
-        displayCurrentVersion(versionDisplay);
-        versionDisplay.addEventListener('click', showVersionInfo);
-    } else {
-        console.error("Hiba: A currentVersion elem nem található.");
-    }
+    document.getElementById('startLevel1').addEventListener('click', () => startGame(1));
+    document.getElementById('startLevel2').addEventListener('click', () => startGame(2));
+    document.getElementById('startLevel3').addEventListener('click', () => startGame(3));
+    document.getElementById('exitButton').addEventListener('click', exitGame);
+    document.getElementById('currentVersion').addEventListener('click', showVersionInfo);
+    document.getElementById('backButton').addEventListener('click', backToStart);
 
-    // Visszalépés a verzió oldalról a kezdőoldalra
-    const backButton = document.getElementById('backButton');
-    if (backButton) {
-        backButton.addEventListener('click', () => {
-            backToStart();
-        });
-    } else {
-        console.error("Hiba: A backButton elem nem található.");
-    }
-    
-    // Játék indítása gombok kezelése
-    const levelButtons = document.querySelectorAll('#levelSelection button');
-    levelButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const selectedLevel = parseInt(button.getAttribute('data-level'), 10);
-            startScreen.style.display = 'none';
-            gameContainer.style.display = 'block';
-            startGame(selectedLevel);
-        });
-    });
+    fetch('levels.json')
+        .then(response => response.json())
+        .then(data => initializeGame(data))
+        .catch(error => console.error("Hiba a szintek betöltésekor:", error));
+
+    displayCurrentVersion();
 });
