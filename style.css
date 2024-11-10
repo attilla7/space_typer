@@ -129,3 +129,19 @@ button:hover {
     color: white;
     text-decoration: underline;
 }
+
+#versionSection {
+    display: flex;
+    align-items: center; /* Középre igazítja a szöveget */
+    margin: 20px 0; /* Térköz a verzió szekció körül */
+}
+
+#versionNumber {
+    font-weight: bold; /* A 'Verzió:' szöveg kiemelése */
+    margin-right: 10px; /* Kis távolság a verzió számától */
+}
+
+#currentVersion {
+    font-style: italic; /* A verzió számot dőlt betűvel jeleníti meg */
+    color: #4CAF50; /* Zöld szín a verzió számára */
+}

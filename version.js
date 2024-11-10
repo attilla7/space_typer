@@ -1,15 +1,12 @@
 // Verzió kijelzése a kezdőoldalon
 export function displayCurrentVersion(versionDisplay) {
     fetch('version.json')
-        .then(response => {
-            if (!response.ok) throw new Error("Nem sikerült betölteni a verzió adatokat.");
-            return response.json();
-        })
-        .then(data => {
-            const currentVersion = data.current_version;
-            versionDisplay.textContent = `Verzió: ${currentVersion}`;
-        })
-        .catch(error => console.error("Hiba a verziók betöltésekor:", error));
+    .then(response => response.json())
+    .then(data => {
+        const currentVersionElement = document.getElementById('currentVersion');
+        currentVersionElement.textContent = `Aktuális verzió: ${data.current_version}`;
+    })
+    .catch(error => console.error('Hiba a verziók betöltésekor:', error));
 }
 
 // Verzióinformáció oldal megjelenítése
