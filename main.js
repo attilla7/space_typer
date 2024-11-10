@@ -9,6 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const versionInfoPage = document.getElementById('versionInfoPage');
     const startScreen = document.getElementById('startScreen');
     const gameContainer = document.getElementById('game');
+    const versionElement = document.getElementById('currentVersion');
+ 
+    if (versionElement) {
+        versionElement.addEventListener('click', showVersionInfo);
+    }
     
     // Verzióinformáció kijelzése kezdőoldalon
     if (versionDisplay) {
