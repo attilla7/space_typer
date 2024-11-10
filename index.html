@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Space Typer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Kezdőképernyő -->
+    <div id="startScreen">
+        <h1>Space Typer</h1>
+        <div id="versionSection">
+            <span id="versionNumber">Verzió: <p id="currentVersion"></p></span>
+        </div>
+        <div id="levelSelection">
+            <button data-level="1">Szint 1</button>
+            <button data-level="5">Szint 5</button>
+            <button data-level="10">Szint 10</button>
+            <button data-level="15">Szint 15</button>
+            <button data-level="20">Szint 20</button>
+        </div>
+    </div>
+
+    <!-- Játék képernyő -->
+    <div id="game" style="display:none;">
+        <div id="background"></div>
+        <div id="spaceship"></div>
+        <div id="targetText"></div>
+        <div id="scoreDisplay">Pontszám: 0</div>
+        <div id="tasksLeftDisplay">Feladatok hátra: 5</div>
+        <div id="levelDisplay">Szint: 1</div>
+        <button id="exitButton">Kilépés</button>
+    </div>
+
+    <!-- Verzióinformációs oldal -->
+    <div id="versionInfo" style="display:none;">
+        <h2>Verzióinformációk</h2>
+        <ul id="versionList"></ul>
+        <button id="backButton">Vissza a kezdőoldalra</button>
+    </div>
+
+    <!-- Moduláris JavaScript importok -->
+    <script src="main.js" type="module"></script>
+</body>
+</html>

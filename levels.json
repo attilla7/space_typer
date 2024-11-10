@@ -1,0 +1,22 @@
+{
+    "levels": [
+        {
+            "level": 1,
+            "tasks": 5,
+            "spaceshipSpeed": 1,
+            "letters": ["d", "f", "j", "k"]
+        },
+        {
+            "level": 2,
+            "tasks": 7,
+            "spaceshipSpeed": 1.5,
+            "letters": ["d", "f", "j", "k", "l"]
+        },
+        {
+            "level": 3,
+            "tasks": 10,
+            "spaceshipSpeed": 2,
+            "letters": ["d", "f", "j", "k", "l", "s"]
+        }
+    ]
+}
