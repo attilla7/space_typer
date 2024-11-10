@@ -14,8 +14,8 @@
 
 /* Játék képernyő */
 #game {
-    width: 100vw;
-    height: 100vh;
+    width: 98vw;
+    height: 95vh;
     background-color: black;
     background-image: url('pictures/stars.png');
     background-size: cover;
@@ -64,7 +64,7 @@
     background-color: #555;
 }
 
-#scoreDisplay, #tasksLeftDisplay, #levelDisplay {
+#scoreDisplay, #tasksDisplay, #levelDisplay {
     font-family: Arial, sans-serif;
     color: white;
     font-size: 18px;
@@ -76,10 +76,10 @@
 
 #scoreDisplay {
     top: 10px;
-    right: 200px;
+    right: 230px;
 }
 
-#tasksLeftDisplay {
+#tasksDisplay {
     top: 10px;
     right: 20px;
 }
@@ -165,4 +165,34 @@ button:hover {
     transform: translate(-50%, -50%);
     padding: 20px; /* Térköz hozzáadása a szöveg körül */
     border-radius: 10px; /* Esztétikusabb kerekített szegély */
+}
+
+#versionHistory {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Távolság a verzióelemek között */
+    padding: 20px;
+}
+
+.versionItem {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.versionTitle {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.versionDate,
+.versionDescription {
+    font-size: 1em;
+    color: #555;
+    margin: 0;
+    padding: 2px 0;
 }

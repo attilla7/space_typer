@@ -19,10 +19,21 @@ export function showVersionInfo() {
         .then(data => {
             const versionHistory = document.getElementById('versionHistory');
             if (versionHistory) {
-                versionHistory.innerHTML = '';
                 data.versions.forEach(version => {
                     const versionItem = document.createElement('div');
-                    versionItem.textContent = `${version.version} - ${version.date}: ${version.description.join(', ')}`;
+                    
+                    // Verzió és dátum kiírása
+                    const versionHeader = document.createElement('h3');
+                    versionHeader.textContent = `${version.version} - ${version.date}`;
+                    versionItem.appendChild(versionHeader);
+                    
+                    // A description tömb elemeinek egymás alá írása
+                    version.description.forEach(descriptionText => {
+                        const descriptionElement = document.createElement('p');
+                        descriptionElement.textContent = descriptionText;
+                        versionItem.appendChild(descriptionElement);
+                    });
+                
                     versionHistory.appendChild(versionItem);
                 });
             }
@@ -34,3 +45,4 @@ export function backToStart() {
     document.getElementById('versionDetails').style.display = 'none';
     document.getElementById('startScreen').style.display = 'block';
 }
+
