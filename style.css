@@ -143,5 +143,5 @@ button:hover {
 
 #currentVersion {
     font-style: italic; /* A verzió számot dőlt betűvel jeleníti meg */
-    color: #4CAF50; /* Zöld szín a verzió számára */
+    color: white;
 }

@@ -2,8 +2,19 @@
     "current_version": "1.1",
     "versions": [
         {
+            "version": "következő verzió",
+            "description": [
+                "Név megadása",
+                "Időmérés",
+                "Statisztika",
+                "Teljes képernyőszélesség kihasználása mindig",
+                "Szintek beállítása",
+                "Saját képek használata"
+            ]
+        },
+        {
             "version": "1.2",
-            "date": "2024-11-11",
+            "date": "???",
             "description": [
                 "Script modularizálása",
                 "GitHub kapcsolat"

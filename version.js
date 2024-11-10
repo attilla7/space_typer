@@ -19,6 +19,13 @@ export function showVersionInfo() {
     startScreen.style.display = 'none';
     versionInfoPage.style.display = 'block';
     
+    const versionInfo = document.getElementById('versionInfo');
+    if (versionInfo) {
+        versionInfo.style.display = 'block'; // Itt módosíthatod a kívánt stílust
+    } else {
+        console.error('Nem található a verzió információs elem!');
+    }
+
     // Verzióinformációk betöltése és kiírása
     fetch('version.json')
         .then(response => {
