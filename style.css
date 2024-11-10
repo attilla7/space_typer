@@ -17,6 +17,9 @@
     width: 100vw;
     height: 100vh;
     background-color: black;
+    background-image: url('pictures/stars.png');
+    background-size: cover;
+    background-repeat: no-repeat;
     position: relative;
 }
 
@@ -131,6 +134,11 @@ button:hover {
 }
 
 #versionSection {
+    background-color: black; /* Módosítva, hogy sötét háttér legyen */
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    position: absolute;
     display: flex;
     align-items: center; /* Középre igazítja a szöveget */
     margin: 20px 0; /* Térköz a verzió szekció körül */
@@ -144,4 +152,17 @@ button:hover {
 #currentVersion {
     font-style: italic; /* A verzió számot dőlt betűvel jeleníti meg */
     color: white;
+}
+
+#versionDetails {
+    background-color: black; /* Módosítva, hogy sötét háttér legyen */
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px; /* Térköz hozzáadása a szöveg körül */
+    border-radius: 10px; /* Esztétikusabb kerekített szegély */
 }
