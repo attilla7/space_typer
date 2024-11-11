@@ -1,3 +1,5 @@
+// game.js
+
 import { updateDisplays } from './ui.js';
 
 let level = 1;
@@ -49,23 +51,29 @@ document.addEventListener('keydown', (event) => {
         spaceshipPosition += spaceshipSpeed * 20;
         document.getElementById('spaceship').style.left = spaceshipPosition + 'px';
 
-        if (tasksLeft <= 0 || spaceshipPosition >= window.innerWidth - 60) {
-            level++;
+        // Ellenőrizzük, hogy van-e még hátralévő feladat, vagy a szint befejeződött
+        if (tasksLeft <= 0) {
             nextLevel();
         } else {
             generateTarget();
         }
+        
         updateDisplays(score, tasksLeft, level);
     }
 });
 
 function nextLevel() {
+    level++;
     const currentLevelData = levelData.find(l => l.level === level) || levelData[levelData.length - 1];
     tasksLeft = currentLevelData.tasks;
     spaceshipSpeed = currentLevelData.spaceshipSpeed;
 
+    // Visszaállítjuk a pozíciókat az új szint kezdéséhez
     spaceshipPosition = 0;
     spaceshipHeight += 50;
+    document.getElementById('spaceship').style.left = spaceshipPosition + 'px';
     document.getElementById('spaceship').style.top = spaceshipHeight + 'px';
+
     generateTarget();
+    updateDisplays(score, tasksLeft, level);
 }
