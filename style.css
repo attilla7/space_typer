@@ -180,7 +180,10 @@ button:hover {
     display: flex;
     flex-direction: column;
     gap: 1rem; /* Távolság a verzióelemek között */
-    padding: 20px;
+    margin-top: 20px; /* Adjunk hozzá elegendő margót a tetején */
+    padding: 20px; /* Esetleg némi paddinget is */
+    /* overflow-y: auto; /* Ha sok verzió van, görgethetővé teszi */
+    max-height: 90vh; /* Képernyőhöz igazítva megakadályozza, hogy túlcsússzon */
 }
 
 .versionItem {

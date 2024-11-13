@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //document.getElementById('exitButton').addEventListener('click', exitGame);
     document.getElementById('currentVersion').addEventListener('click', showVersionInfo);
-    //document.getElementById('backButton').addEventListener('click', backToStart);
+    document.getElementById('backButton').addEventListener('click', backToStart);
 
     fetch('levels.json')
         .then(response => response.json())
