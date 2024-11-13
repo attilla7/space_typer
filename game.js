@@ -52,7 +52,8 @@ document.addEventListener('keydown', (event) => {
         document.getElementById('spaceship').style.left = spaceshipPosition + 'px';
 
         // Ellenőrizzük, hogy van-e még hátralévő feladat, vagy a szint befejeződött
-        if (tasksLeft <= 0) {
+        if (tasksLeft <= 0 || spaceshipPosition >= window.innerWidth - 60) {
+            level++;
             nextLevel();
         } else {
             generateTarget();

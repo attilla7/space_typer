@@ -12,6 +12,10 @@
     border-radius: 10px; /* Esztétikusabb kerekített szegély */
 }
 
+#startScreen {
+    padding: 20px; /* Térköz hozzáadása a szöveg körül */
+}
+
 /* Játék képernyő */
 #game {
     width: 98vw;
@@ -21,6 +25,11 @@
     background-size: cover;
     background-repeat: no-repeat;
     position: relative;
+    padding: 20px; /* Térköz hozzáadása a szöveg körül */
+}
+
+#game {
+    padding: 20px; /* Térköz hozzáadása a szöveg körül */
 }
 
 #background {
@@ -106,7 +115,7 @@
 
 /* Gomb stílusok */
 button {
-    font-size: 16px;
+    font-size: 18px;
     color: white;
     background-color: #333;
     cursor: pointer;
@@ -195,4 +204,25 @@ button:hover {
     color: #555;
     margin: 0;
     padding: 2px 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+}
+
+#gameArea {
+    position: relative;
+    width: 90%;
+    height: 400px;
+    margin: 0 auto;
+    background-image: url('background.jpg');
+    background-size: cover;
+}
+
+#levelInfo img {
+    width: 300px;
+    margin: 20px 0;
 }

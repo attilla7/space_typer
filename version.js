@@ -46,3 +46,7 @@ export function backToStart() {
     document.getElementById('startScreen').style.display = 'block';
 }
 
+export function displayVersion() {
+    const versionElement = document.getElementById('version');
+    versionElement.textContent = 'Verzió: 1.2 - Kiterjesztett szintek és funkciók';
+}

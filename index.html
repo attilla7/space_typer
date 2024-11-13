@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Space Typer</title>
     <link rel="stylesheet" href="style.css">
-    <script type="module" src="main.js" defer></script>
+    <script type="module" src="main.js"></script>
 </head>
 <body>
     <div id="startScreen">
@@ -13,29 +13,36 @@
             <p id="currentVersion"></p>
         </div>
         <h1>Space Typer</h1>
-        <button id="startLevel1">1. szint</button>
-        <button id="startLevel6">6. szint</button>
-        <button id="startLevel11">11. szint</button>
-        <button id="startLevel16">16. szint</button>
-        <button id="startLevel21">21. szint</button>
-        <button id="startLevel26">26. szint</button>
-        <button id="startLevel32">32. szint</button>
-        <button id="startLevel36">36. szint</button>
+        <button id="startGame">Játék indítása</button>
+        <button id="selectLevel">Szint kiválasztása</button>
+    </div>
+
+    <div id="levelScreen" style="display: none;">
+        <h2>Szint kiválasztása</h2>
+        <div id="levels">
+            <!-- Dinamikusan betöltődő szintek -->
+        </div>
+        <button id="backToStart">Vissza a kezdőoldalra</button>
     </div>
 
     <div id="game" style="display: none;">
         <h2>Space Typer Játék</h2>
-        <p id="targetText">Nyomd meg: </p>
-        <div id="spaceship"></div>
-        <p id="scoreDisplay">Pontszám: 0</p>
-        <p id="tasksDisplay">Hátralévő feladatok: </p>
-        <button id="exitButton">Kilépés</button>
+        <div id="status">
+            <p>Pontszám: <span id="score">0</span></p>
+            <p>Feladatok hátra: <span id="tasksLeft">0</span></p>
+        </div>
+        <div id="gameArea">
+            <img id="spaceship" src="pictures/spaceship.png" alt="Spaceship">
+            <p id="targetText"></p>
+        </div>
     </div>
 
-    <div id="versionDetails" style="display: none;">
-        <h2>Verzió információk</h2>
-        <div id="versionHistory"></div>
-        <button id="backButton">Vissza</button>
+    <div id="levelInfo" style="display: none;">
+        <h3>Szint Információk</h3>
+        <p id="requiredKeys">Szükséges billentyűk: <span id="keyList"></span></p>
+        <img src="pictures/keyboard-guide.png" alt="Keyboard guide">
+        <p>Nyomd meg a szóközt a kezdéshez.</p>
     </div>
+
 </body>
 </html>

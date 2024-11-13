@@ -1,22 +1,556 @@
 {
     "levels": [
         {
-            "level": 1,
+            "level": 101,
+            "keys": ["4", "5", "6"],
             "tasks": 5,
-            "spaceshipSpeed": 1,
-            "letters": ["d", "f", "j", "k"]
-        },
-        {
-            "level": 2,
-            "tasks": 7,
-            "spaceshipSpeed": 1.5,
-            "letters": ["d", "f", "j", "k", "l"]
-        },
-        {
-            "level": 3,
+            "characterCount": 1
+          },
+          {
+            "level": 102,
+            "keys": ["4", "5", "6"],
             "tasks": 10,
-            "spaceshipSpeed": 2,
-            "letters": ["d", "f", "j", "k", "l", "s"]
-        }
+            "characterCount": 1
+          },
+          {
+            "level": 103,
+            "keys": ["4", "5", "6"],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 104,
+            "keys": ["4", "5", "6", "7", "8", "9"],
+            "tasks": 10,
+            "characterCount": 1
+          },
+          {
+            "level": 105,
+            "keys": ["4", "5", "6", "7", "8", "9"],
+            "tasks": 20,
+            "characterCount": 1
+          },
+          {
+            "level": 106,
+            "keys": ["4", "5", "6", "7", "8", "9"],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 107,
+            "keys": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+            "tasks": 10,
+            "characterCount": 1
+          },
+          {
+            "level": 108,
+            "keys": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 109,
+            "keys": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+            "tasks": 20,
+            "characterCount": 4
+          },
+          {
+            "level": 110,
+            "keys": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ","],
+            "tasks": 20,
+            "characterCount": 1
+          },
+          {
+            "level": 111,
+            "keys": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ","],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 112,
+            "keys": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ","],
+            "tasks": 20,
+            "characterCount": 6
+          },
+          {
+            "level": 1,
+            "keys": ["d", "f", "j", "k"],
+            "tasks": 5,
+            "characterCount": 1
+          },
+          {
+            "level": 2,
+            "keys": ["d", "f", "j", "k"],
+            "tasks": 10,
+            "characterCount": 1
+          },
+          {
+            "level": 3,
+            "keys": ["d", "f", "j", "k"],
+            "tasks": 10,
+            "characterCount": 1
+          },
+          {
+            "level": 4,
+            "keys": ["d", "f", "j", "k"],
+            "tasks": 20,
+            "characterCount": 1
+          },
+          {
+            "level": 5,
+            "keys": ["d", "f", "j", "k"],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 6,
+            "keys": ["d", "f", "j", "k", "l", "s"],
+            "tasks": 10,
+            "characterCount": 1
+          },
+          {
+            "level": 7,
+            "keys": ["d", "f", "j", "k", "l", "s"],
+            "tasks": 10,
+            "characterCount": 1
+          },
+          {
+            "level": 8,
+            "keys": ["d", "f", "j", "k", "l", "s"],
+            "tasks": 20,
+            "characterCount": 1
+          },
+          {
+            "level": 9,
+            "keys": ["d", "f", "j", "k", "l", "s"],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 20,
+            "keys": ["d", "f", "j", "k", "l", "s"],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 11,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é"],
+            "tasks": 10,
+            "characterCount": 1
+          },
+          {
+            "level": 12,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é"],
+            "tasks": 20,
+            "characterCount": 1
+          },
+          {
+            "level": 13,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é"],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 14,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é"],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 15,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é"],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 16,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h"],
+            "tasks": 10,
+            "characterCount": 1
+          },
+          {
+            "level": 17,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h"],
+            "tasks": 20,
+            "characterCount": 1
+          },
+          {
+            "level": 18,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h"],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 19,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h"],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 20,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h"],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 21,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u"],
+            "tasks": 10,
+            "characterCount": 1
+          },
+          {
+            "level": 22,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u"],
+            "tasks": 20,
+            "characterCount": 1
+          },
+          {
+            "level": 23,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u"],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 24,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u"],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 25,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u"],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 26,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i"],
+            "tasks": 10,
+            "characterCount": 1
+          },
+          {
+            "level": 27,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i"],
+            "tasks": 20,
+            "characterCount": 1
+          },
+          {
+            "level": 28,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i"],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 29,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i"],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 30,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i"],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 31,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o"],
+            "tasks": 10,
+            "characterCount": 1
+          },
+          {
+            "level": 32,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o"],
+            "tasks": 20,
+            "characterCount": 1
+          },
+          {
+            "level": 33,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o"],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 34,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o"],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 35,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o"],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 36,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p"],
+            "tasks": 10,
+            "characterCount": 1
+          },
+          {
+            "level": 37,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p"],
+            "tasks": 20,
+            "characterCount": 1
+          },
+          {
+            "level": 38,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p"],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 39,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p"],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 40,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p"],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 41,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y"],
+            "tasks": 20,
+            "characterCount": 1
+          },
+          {
+            "level": 42,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y"],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 43,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y"],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 44,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y"],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 45,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y"],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 46,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m"],
+            "tasks": 20,
+            "characterCount": 1
+          },
+          {
+            "level": 47,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m"],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 48,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m"],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 49,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m"],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 50,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m"],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 51,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ","],
+            "tasks": 20,
+            "characterCount": 1
+          },
+          {
+            "level": 52,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ","],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 53,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ","],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 54,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ","],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 55,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ","],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 56,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", "."],
+            "tasks": 20,
+            "characterCount": 1
+          },
+          {
+            "level": 57,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", "."],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 58,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", "."],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 59,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", "."],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 60,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", "."],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 61,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", ".", "y", "-"],
+            "tasks": 20,
+            "characterCount": 1
+          },
+          {
+            "level": 62,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", ".", "y", "-"],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 63,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", ".", "y", "-"],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 64,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", ".", "y", "-"],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 65,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", ".", "y", "-"],
+            "tasks": 20,
+            "characterCount": 5
+          },
+          {
+            "level": 66,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", ".", "y", "-", "í", "á", "ű"],
+            "tasks": 20,
+            "characterCount": 1
+          },
+          {
+            "level": 67,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", ".", "y", "-", "í", "á", "ű"],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 68,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", ".", "y", "-", "í", "á", "ű"],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 69,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", ".", "y", "-", "í", "á", "ű"],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 70,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", ".", "y", "-", "í", "á", "ű"],
+            "tasks": 20,
+            "characterCount": 5
+          },
+          {
+            "level": 71,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", ".", "y", "-", "í", "á", "ű", "ő", "ú"],
+            "tasks": 20,
+            "characterCount": 1
+          },
+          {
+            "level": 72,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", ".", "y", "-", "í", "á", "ű", "ő", "ú"],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 73,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", ".", "y", "-", "í", "á", "ű", "ő", "ú"],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 74,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", ".", "y", "-", "í", "á", "ű", "ő", "ú"],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 75,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", ".", "y", "-", "í", "á", "ű", "ő", "ú"],
+            "tasks": 20,
+            "characterCount": 5
+          },
+          {
+            "level": 76,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", ".", "y", "-", "í", "á", "ű", "ő", "ú", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "ö", "ü", "ó"],
+            "tasks": 20,
+            "characterCount": 1
+          },
+          {
+            "level": 77,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", ".", "y", "-", "í", "á", "ű", "ő", "ú", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "ö", "ü", "ó"],
+            "tasks": 20,
+            "characterCount": 2
+          },
+          {
+            "level": 78,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", ".", "y", "-", "í", "á", "ű", "ő", "ú", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "ö", "ü", "ó"],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 79,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", ".", "y", "-", "í", "á", "ű", "ő", "ú", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "ö", "ü", "ó"],
+            "tasks": 20,
+            "characterCount": 3
+          },
+          {
+            "level": 80,
+            "keys": ["d", "f", "j", "k", "l", "s", "a", "é", "g", "h", "r", "u", "e", "i", "w", "o", "q", "p", "t", "y", "v", "m", "c", ",", "x", ".", "y", "-", "í", "á", "ű", "ő", "ú", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "ö", "ü", "ó"],
+            "tasks": 20,
+            "characterCount": 5
+          }
     ]
 }
