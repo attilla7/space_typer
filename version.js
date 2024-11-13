@@ -1,3 +1,6 @@
+// Változó a verziók betöltésének nyomon követésére
+let versionLoaded = 'empty';
+
 export function displayCurrentVersion() {
     fetch('version.json')
         .then(response => response.json())
@@ -11,9 +14,17 @@ export function displayCurrentVersion() {
 }
 
 export function showVersionInfo() {
+    // Ellenőrizzük, hogy a verziók már betöltöttek-e
+
     document.getElementById('startScreen').style.display = 'none';
     document.getElementById('versionDetails').style.display = 'block';
-    
+    document.getElementById('backStartscreen').style.display = 'block';
+//    document.getElementById('versionSection').style.display = 'block';
+
+    if (versionLoaded === 'loaded') {
+        return; // Ha igen, nem töltjük be újra
+    }
+
     fetch('version.json')
         .then(response => response.json())
         .then(data => {
@@ -40,16 +51,22 @@ export function showVersionInfo() {
             }
         })
         .catch(error => console.error("Verzióadatok betöltési hiba:", error));
-            versionContainer.innerHTML = ''; 
-
+    
+            // Verziók sikeres betöltése után állítsuk "loaded" értékre
+    versionLoaded = 'loaded';
 }
 
 export function backToStart() {
     document.getElementById('versionDetails').style.display = 'none';
     document.getElementById('startScreen').style.display = 'block';
+    document.getElementById('backStartscreen').style.display = 'none';
 
-    document.getElementById('backButton').addEventListener('click'), () => {
+
+    document.getElementById('backButton').addEventListener('click', () => {
+        document.getElementById('startScreen').style.display = 'block';
+        document.getElementById('versionDetails').style.display = 'none';
         document.getElementById('versionPage').style.display = 'none';
-        document.getElementById('homePage').style.display = 'block';
-    }
+        document.getElementById('versionSection').style.display = 'block';
+        document.getElementById('backStartscreen').style.display = 'none';
+    })
 }

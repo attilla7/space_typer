@@ -28,6 +28,7 @@ export function startGame(selectedLevel) {
     document.getElementById('spaceship').style.top = spaceshipHeight + 'px';
     document.getElementById('startScreen').style.display = 'none';
     document.getElementById('game').style.display = 'block';
+    document.getElementById('backStartscreen').style.display = 'block';
 
     generateTarget();
     updateDisplays(score, tasksLeft, level);
@@ -36,6 +37,7 @@ export function startGame(selectedLevel) {
 export function exitGame() {
     document.getElementById('game').style.display = 'none';
     document.getElementById('startScreen').style.display = 'block';
+    document.getElementById('backStartscreen').style.display = 'none';
 }
 
 function generateTarget() {
