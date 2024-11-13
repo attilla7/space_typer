@@ -13,14 +13,13 @@ export function displayCurrentVersion() {
 export function showVersionInfo() {
     document.getElementById('startScreen').style.display = 'none';
     document.getElementById('versionDetails').style.display = 'block';
-
+    
     fetch('version.json')
         .then(response => response.json())
         .then(data => {
             const versionHistory = document.getElementById('versionHistory');
             if (versionHistory) {
                 
-
                 data.versions.forEach(version => {
                     const versionItem = document.createElement('div');
                     
@@ -41,14 +40,16 @@ export function showVersionInfo() {
             }
         })
         .catch(error => console.error("Verzióadatok betöltési hiba:", error));
+            versionContainer.innerHTML = ''; 
+
 }
 
 export function backToStart() {
     document.getElementById('versionDetails').style.display = 'none';
     document.getElementById('startScreen').style.display = 'block';
-}
 
-export function displayVersion() {
-    const versionElement = document.getElementById('version');
-    versionElement.textContent = 'Verzió: 1.2 - Kiterjesztett szintek és funkciók';
+    document.getElementById('backButton').addEventListener('click'), () => {
+        document.getElementById('versionPage').style.display = 'none';
+        document.getElementById('homePage').style.display = 'block';
+    }
 }
