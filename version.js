@@ -19,6 +19,8 @@ export function showVersionInfo() {
         .then(data => {
             const versionHistory = document.getElementById('versionHistory');
             if (versionHistory) {
+                
+
                 data.versions.forEach(version => {
                     const versionItem = document.createElement('div');
                     
