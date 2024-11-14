@@ -18,7 +18,7 @@ export function showVersionInfo() {
 
     document.getElementById('startScreen').style.display = 'none';
     document.getElementById('versionDetails').style.display = 'block';
-    document.getElementById('backStartscreen').style.display = 'block';
+    document.getElementById('backButtonScreen').style.display = 'block';
 //    document.getElementById('versionSection').style.display = 'block';
 
     if (versionLoaded === 'loaded') {
@@ -56,17 +56,3 @@ export function showVersionInfo() {
     versionLoaded = 'loaded';
 }
 
-export function backToStart() {
-    document.getElementById('versionDetails').style.display = 'none';
-    document.getElementById('startScreen').style.display = 'block';
-    document.getElementById('backStartscreen').style.display = 'none';
-
-
-    document.getElementById('backButton').addEventListener('click', () => {
-        document.getElementById('startScreen').style.display = 'block';
-        document.getElementById('versionDetails').style.display = 'none';
-        document.getElementById('versionPage').style.display = 'none';
-        document.getElementById('versionSection').style.display = 'block';
-        document.getElementById('backStartscreen').style.display = 'none';
-    })
-}

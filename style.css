@@ -10,9 +10,6 @@
     transform: translate(-50%, -50%);
     padding: 20px; /* Térköz hozzáadása a szöveg körül */
     border-radius: 10px; /* Esztétikusabb kerekített szegély */
-}
-
-#startScreen {
     padding: 20px; /* Térköz hozzáadása a szöveg körül */
 }
 
@@ -28,8 +25,14 @@
     padding: 20px; /* Térköz hozzáadása a szöveg körül */
 }
 
-#game {
+#backButtonScreen {
+    background-color: black;
     padding: 20px; /* Térköz hozzáadása a szöveg körül */
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+
 }
 
 #background {
@@ -98,17 +101,6 @@
     left: 120px;
 }
 
-#exitButton {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    padding: 10px;
-    background-color: #333;
-    color: white;
-    border: 1px solid #fff;
-    cursor: pointer;
-}
-
 #backButton {
     display: block;
     margin-top: 20px; /* Távolság a verzióleírásoktól */
@@ -123,10 +115,6 @@
     position: absolute;
     bottom: 10px;
     /* left: 10px; */
-}
-
-#exitButton:hover {
-    background-color: #555;
 }
 
 /* Gomb stílusok */
@@ -190,16 +178,19 @@ button:hover {
     transform: translate(-50%, -50%);
     padding: 20px; /* Térköz hozzáadása a szöveg körül */
     border-radius: 10px; /* Esztétikusabb kerekített szegély */
+    margin-top: 20px;
 }
 
 #versionHistory {
-    display: flex;
-    flex-direction: column;
+/*     display: flex; */
+    height: 100vh;
+/*      flex-direction: column; */
     gap: 1rem; /* Távolság a verzióelemek között */
-    margin-top: 20px; /* Adjunk hozzá elegendő margót a tetején */
     padding: 20px; /* Esetleg némi paddinget is */
+    padding-bottom: 50px;
     /* overflow-y: auto; /* Ha sok verzió van, görgethetővé teszi */
     max-height: 90vh; /* Képernyőhöz igazítva megakadályozza, hogy túlcsússzon */
+    text-align: center;
 }
 
 .versionItem {

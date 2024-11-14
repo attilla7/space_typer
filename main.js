@@ -1,6 +1,6 @@
-import { startGame, exitGame, initializeGame } from './game.js';
+import { startGame, initializeGame } from './game.js';
 import { showLevels, showLevelInfo } from './levels.js';
-import { displayCurrentVersion, showVersionInfo, backToStart } from './version.js';
+import { displayCurrentVersion, showVersionInfo } from './version.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const levelButtons = [
@@ -23,10 +23,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('selectLevel').addEventListener('click', showLevels);
-    document.getElementById('backToStart').addEventListener('click', () => {
-        document.getElementById('levelScreen').style.display = 'none';
+    document.getElementById('backButton').addEventListener('click', () => {
         document.getElementById('startScreen').style.display = 'block';
-    });
+        document.getElementById('versionDetails').style.display = 'none';
+        document.getElementById('versionPage').style.display = 'none';
+        document.getElementById('versionSection').style.display = 'block';
+        document.getElementById('versionSection').style.display = 'block';
+        document.getElementById('backButtonScreen').style.display = 'none';
+    })
 
     //document.getElementById('exitButton').addEventListener('click', exitGame);
     document.getElementById('currentVersion').addEventListener('click', showVersionInfo);
@@ -43,3 +47,20 @@ document.addEventListener('DOMContentLoaded', () => {
 //        displayVersion();
 //    });
 });
+
+function backToStart() {
+    document.getElementById('game').style.display = 'none';
+    document.getElementById('versionDetails').style.display = 'none';
+    document.getElementById('startScreen').style.display = 'block';
+    document.getElementById('backButtonScreen').style.display = 'none';
+
+
+    document.getElementById('backButton').addEventListener('click', () => {
+        document.getElementById('startScreen').style.display = 'block';
+        document.getElementById('levelScreen').style.display = 'none';
+        document.getElementById('game').style.display = 'none';
+        document.getElementById('levelInfo').style.display = 'none';
+        document.getElementById('versionDetails').style.display = 'none';
+        document.getElementById('backButtonScreen').style.display = 'none';
+     })
+}
