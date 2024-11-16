@@ -18,11 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
     //    document.getElementById(id).addEventListener('click', () => startGame(level));
     //});
 
-    document.getElementById('startGame').addEventListener('click', () => {
-        startGame(1);
-    });
+ //   document.getElementById('startGame').addEventListener('click', () => {
+ //       startGame();
+ //   });
 
-    document.getElementById('selectLevel').addEventListener('click', showLevels);
+ //   document.getElementById('selectLevel').addEventListener('click', showLevels);
     document.getElementById('backButton').addEventListener('click', () => {
         document.getElementById('startScreen').style.display = 'block';
         document.getElementById('versionDetails').style.display = 'none';
@@ -64,3 +64,36 @@ function backToStart() {
         document.getElementById('backButtonScreen').style.display = 'none';
      })
 }
+
+// Dinamikus gombok generálása a kezdőoldalon
+function loadLevelButtons() {
+    const levelButtonsContainer = document.getElementById('levelButtonsContainer');
+    levelButtonsContainer.innerHTML = ''; // Gombok törlése (ha újratöltjük)
+
+    fetch('levels.json')
+        .then(response => response.json())
+        .then(levels => {
+            const levelIds = [
+                101, 104, 107, 110,
+                1, 6, 11, 16, 21, 26,
+                31, 36, 41, 46, 51, 56,
+                61, 66, 71, 76
+            ];
+            
+            levelIds.forEach(levelId => {
+                if (levels[levelId]) {
+                    const button = document.createElement('button');
+                    button.innerText = `Szint ${levelId}`;
+                    button.classList.add('level-button');
+                    button.onclick = () => startGame(levelId, levels[levelId]);
+                    levelButtonsContainer.appendChild(button);
+                }
+            });
+        })
+        .catch(error => console.error('Failed to load levels:', error));
+}
+
+// Oldal betöltésekor a kezdőoldal frissítése
+window.onload = () => {
+    loadLevelButtons();
+};

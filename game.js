@@ -15,6 +15,7 @@ export function initializeGame(data) {
     levelData = data.levels;
 }
 
+// Játék indítása egy adott szinttel
 export function startGame(selectedLevel) {
     const initialLevelData = levelData.find(l => l.level === selectedLevel) || levelData[0];
     level = selectedLevel;
@@ -79,3 +80,4 @@ function nextLevel() {
     generateTarget();
     updateDisplays(score, tasksLeft, level);
 }
+
