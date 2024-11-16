@@ -41,10 +41,10 @@ export function showLevelInfo(levelNumber) {
 
     document.addEventListener('keydown', (event) => {
         if (event.key === ' ') {
-            startGame(levelNumber);
             document.getElementById('levelInfo').style.display = 'none';
+            startGame(levelNumber);
         }
-    }, { once: true });
+    },);
 }
 
 export function getLevelData() {
