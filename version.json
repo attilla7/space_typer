@@ -8,14 +8,20 @@
                 "Név megadása",
                 "Időmérés",
                 "Statisztika",
-                "Teljes képernyőszélesség kihasználása mindig",
                 "Saját képek használata",
                 "Online elhelyezés"
             ]
         },
         {
+            "version": "0.5",
+            "date": "2024-11-18",
+            "description": [
+                "Teljes képernyőszélesség kihasználása mindig"
+            ]
+        },
+        {
             "version": "0.4",
-            "date": "2024-11-11",
+            "date": "2024-11-18",
             "description": [
                 "Szintstruktúra kidolgozása"
             ]

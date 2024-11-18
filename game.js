@@ -13,6 +13,8 @@ let spaceshipHeight = 80;
 let currentLetter = '';
 let levelData = [];  // A globális változó a szintek adatainak tárolásához
 let characters = null;
+let maxSteps = null;
+let maxPosition = null;
 
 export function initializeGame(data) {
     levelData = data.levels;  // A szintek adatainak betöltése
@@ -34,9 +36,7 @@ export function startGame(selectedLevel) {
     tasksLeft = actualLevel.tasks;
     characters = actualLevel.characterCount;
 
-
-    // Játék kezdete: űrhajó pozíciója és kezdő képernyő eltüntetése
-
+    // Játék kezdete: űrhajó pozíciója
     document.getElementById('spaceship').style.left = spaceshipPosition + 'px';
     document.getElementById('spaceship').style.top = spaceshipHeight + 'px';
 
@@ -68,11 +68,10 @@ document.addEventListener('keydown', (event) => {
             generateTarget(actualLevel.keys); // Új karakterek generálása
         }
 
-        spaceshipPosition += spaceshipSpeed * 20;  // Űrhajó pozíciójának frissítése
-        document.getElementById('spaceship').style.left = spaceshipPosition + 'px';
+        spaceshipFlying();
 
         // Ha nincs több hátralévő feladat, vagy elérte a célt, befejezzük a szintet
-        if (tasksLeft <= 0 || spaceshipPosition >= window.innerWidth - 60) {
+        if (tasksLeft <= 0) {
             showCompletionMessage(actualLevel.level);  // Sikeres szint üzenet
             nextLevel();               // Következő szint elindítása
         }
@@ -146,4 +145,15 @@ export function levelStart(level) {
 
     // Megjelenítések frissítése
     updateDisplays(startLevel, score, tasksLeft, actualLevel.level);
+}
+
+function spaceshipFlying() {
+        // Maximális lépések számának kiszámítása
+        maxSteps = actualLevel.tasks * actualLevel.characterCount;
+        // Maximális pozíció számítása (képernyő szélessége - űrhajó szélessége)
+        maxPosition = window.innerWidth - 160; // ha 60px az űrhajó szélessége
+        spaceshipSpeed = maxPosition / maxSteps;
+ //       spaceshipPosition += spaceshipSpeed * 20;  // Űrhajó pozíciójának frissítése
+        spaceshipPosition += spaceshipSpeed * 0.9;  // Űrhajó pozíciójának frissítése
+        document.getElementById('spaceship').style.left = spaceshipPosition + 'px';
 }
