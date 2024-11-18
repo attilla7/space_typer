@@ -39,7 +39,7 @@ export function showLevelInfo(level) {
     const startHandler = (event) => {
         if (event.key === ' ') {
             document.getElementById('levelInfo').style.display = 'none';
-            levelStart(level.level); // A szint adatait átadjuk a játéknak
+            levelStart(level); // A szint adatait átadjuk a játéknak
             document.removeEventListener('keydown', startHandler); // Eltávolítjuk az eseménykezelőt
         }
     };

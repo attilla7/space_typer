@@ -8,9 +8,13 @@ export function updateDisplays(level1, score, tasksLeft, level) {
       } else {
         document.getElementById('level').textContent = level;
       }
-    document.getElementById('level1').textContent = level1;
+
+      // További adatok frissítése
+     document.getElementById('level1').textContent = level1;
     document.getElementById('score').textContent = score;
     document.getElementById('tasksLeft').textContent = tasksLeft;
+
+    // Ha nincs hátralévő feladat, akkor megjelenítjük a szint sikeres teljesítését
     if (tasksLeft === 0) {
         showCompletionMessage(level);
     }

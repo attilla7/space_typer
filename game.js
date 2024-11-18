@@ -12,6 +12,7 @@ let spaceshipPosition = 0;
 let spaceshipHeight = 80;
 let currentLetter = '';
 let levelData = [];  // A globális változó a szintek adatainak tárolásához
+let characters = null;
 
 export function initializeGame(data) {
     levelData = data.levels;  // A szintek adatainak betöltése
@@ -31,7 +32,8 @@ export function startGame(selectedLevel) {
     spaceshipPosition = 0;
     spaceshipHeight = 80;
     tasksLeft = actualLevel.tasks;
-    spaceshipSpeed = actualLevel.characterCount;
+    characters = actualLevel.characterCount;
+
 
     // Játék kezdete: űrhajó pozíciója és kezdő képernyő eltüntetése
 
@@ -43,28 +45,39 @@ export function startGame(selectedLevel) {
 }
 
 function generateTarget(keys) {
-    currentLetter = keys[Math.floor(Math.random() * keys.length)];
+    let keySequence = [];
+    // Generáljunk egy karakterláncot a characterCount alapján
+    for (let i = 0; i < actualLevel.characterCount; i++) {
+        const letter = keys[Math.floor(Math.random() * keys.length)];
+        keySequence.push(letter);
+    }
+
+    currentLetter = keySequence.join(''); // Az összes karaktert most már egy karakterlánccá alakítjuk
+
     document.getElementById('targetText').textContent = `Nyomd meg: ${currentLetter.toUpperCase()}`;
 }
 
-// Billentyű lenyomás figyelése
 document.addEventListener('keydown', (event) => {
-    if (event.key === currentLetter) {
-
+    if (currentLetter[0] === event.key) { // Ellenőrizzük, hogy az első karakter egyezik-e a megnyomott billentyűvel
+        currentLetter = currentLetter.slice(1); // Eltávolítjuk az első karaktert, ha helyes volt
         score++;
-        tasksLeft--;
-        spaceshipPosition += spaceshipSpeed * 20;
-        document.getElementById('spaceship').style.left = spaceshipPosition + 'px';
 
-        // Ellenőrizzük, hogy van-e még hátralévő feladat, vagy a szint befejeződött
-        if (tasksLeft <= 0 || spaceshipPosition >= window.innerWidth - 60) {
-            showCompletionMessage();
-            nextLevel();
-        } else {
-            generateTarget(actualLevel.keys);  // Frissítjük a következő célt
+        // Ha nincs több karakter, csökkentjük a feladatok számát
+        if (currentLetter.length === 0) {
+            tasksLeft--; // Feladatok számának csökkentése, ha minden karaktert beírtak
+            generateTarget(actualLevel.keys); // Új karakterek generálása
         }
 
-        updateDisplays(startLevel, score, tasksLeft, actualLevel.level);
+        spaceshipPosition += spaceshipSpeed * 20;  // Űrhajó pozíciójának frissítése
+        document.getElementById('spaceship').style.left = spaceshipPosition + 'px';
+
+        // Ha nincs több hátralévő feladat, vagy elérte a célt, befejezzük a szintet
+        if (tasksLeft <= 0 || spaceshipPosition >= window.innerWidth - 60) {
+            showCompletionMessage(actualLevel.level);  // Sikeres szint üzenet
+            nextLevel();               // Következő szint elindítása
+        }
+
+        updateDisplays(startLevel, score, tasksLeft, actualLevel.level);  // Képernyő frissítése
     }
 });
 
@@ -77,7 +90,7 @@ function nextLevel() {
 
     actualLevel = nextLevelData;
     tasksLeft = actualLevel.tasks;
-    spaceshipSpeed = actualLevel.characterCount;
+    characters = nextLevelData.characterCount;
 
     const levelIds1 = [
         104, 107, 110
@@ -87,7 +100,6 @@ function nextLevel() {
         31, 36, 41, 46, 51, 56,
         61, 66, 71, 76
     ];
-    console.log(`actualLevel.level ${actualLevel.level}`);
     if (levelIds1.includes(actualLevel.level)) {  // szám blokk vége
             startGame(actualLevel.level);
         } else if (levelIds2.includes(actualLevel.level)) {  // betű blokk vége
@@ -111,15 +123,19 @@ function nextLevel() {
         }
     };
 
-
-
 // Szint indítása
 export function levelStart(level) {
-    console.log(`Szint elindítva: ${level.level}`);
-    console.log(`Feladatok száma: ${level.tasks}`);
-    console.log(`Karakterek száma: ${level.characterCount}`);
-    console.log(`Gombok: ${level.keys}`);
-    // Itt helyezheted el a szint elindításához szükséges funkciókat
+    console.log(`Szint elindítva: ${level.level}`); //debug
+    console.log(`Feladatok száma: ${level.tasks}`); //debug
+    console.log(`Karakterek száma: ${level.characterCount}`); //debug
+    console.log(`Gombok: ${level.keys}`); //debug
+
+    // Szint adatainak beállítása
+    actualLevel = level;
+    tasksLeft = level.tasks;
+    characters = level.characterCount;
+    
+    // Kezdő képernyő eltüntetése
     document.getElementById('startScreen').style.display = 'none';
     document.getElementById('levelInfo').style.display = 'none';
     document.getElementById('game').style.display = 'block';
@@ -130,6 +146,4 @@ export function levelStart(level) {
 
     // Megjelenítések frissítése
     updateDisplays(startLevel, score, tasksLeft, actualLevel.level);
-
-
 }
