@@ -1,9 +1,14 @@
-//export function updateDisplays(score, tasksLeft, level) {
-//    document.getElementById('scoreDisplay').textContent = `Pontszám: ${score}`;
-//    document.getElementById('tasksDisplay').textContent = `Hátralévő feladatok: ${tasksLeft}`;
-//}
+//ui.js
 
-export function updateDisplays(score, tasksLeft, level) {
+export function updateDisplays(level1, score, tasksLeft, level) {
+    if (level > 100 && level < 113) {
+        document.getElementById('level').textContent = level + " / 101-112";
+      } else if (level > 0 && level < 81) {
+        document.getElementById('level').textContent = level + " /80";
+      } else {
+        document.getElementById('level').textContent = level;
+      }
+    document.getElementById('level1').textContent = level1;
     document.getElementById('score').textContent = score;
     document.getElementById('tasksLeft').textContent = tasksLeft;
     if (tasksLeft === 0) {
@@ -11,7 +16,7 @@ export function updateDisplays(score, tasksLeft, level) {
     }
 }
 
-function showCompletionMessage(level) {
+export function showCompletionMessage(level) {
     alert(`Gratulálunk! A(z) ${level}. szint teljesítve.`);
     // További funkció hozzáadható később, mint például statisztika kijelzése vagy folytatás.
 }

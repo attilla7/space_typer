@@ -1,3 +1,5 @@
+/* style.css */
+
 /* Kezdőképernyő háttérszín */
 #startScreen {
     background-color: black; /* Módosítva, hogy sötét háttér legyen */
@@ -104,7 +106,7 @@
 /* Gomb stílusok */
 button {
     font-size: 18px;
-    color: white;
+    color: rgb(255, 255, 180);
     background-color: #333;
     border: 2px solid #555;
     padding: 10px 20px;
@@ -112,13 +114,13 @@ button {
     border-radius: 5px;
     transition: background-color 0.3s;
 }
-
+/*
 #backButton {
     color: rgb(255, 255, 180);
-/*     display: block;
-    text-align: center; */
+     display: block;
+    text-align: center;
 }
-
+*/
 #selectLevel,
 #startGame {
     border-radius: 5px;
@@ -245,7 +247,7 @@ body {
     width: 90%;
     height: 400px;
     margin: 0 auto;
-    background-image: url('background.jpg');
+/*    background-image: url('background.jpg'); */
     background-size: cover;
 }
 
@@ -260,7 +262,7 @@ body {
     gap: 10px;
     justify-content: center;
 }
-
+/*
 .level-button {
     padding: 10px 20px;
     font-size: 16px;
@@ -271,7 +273,21 @@ body {
     border-radius: 5px;
     transition: background-color 0.3s;
 }
-
+*/
 .level-button:hover {
-    background-color: #0056b3;
+    background-color: rgb(255, 255, 180);
+    color: #333;
+}
+
+#status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+/*    margin-bottom: 20px;*/
+}
+
+#status p {
+    margin: 0;
+    padding: 0 50px;
 }

@@ -1,3 +1,5 @@
+//version.js
+
 // Változó a verziók betöltésének nyomon követésére
 let versionLoaded = 'empty';
 
@@ -19,7 +21,6 @@ export function showVersionInfo() {
     document.getElementById('startScreen').style.display = 'none';
     document.getElementById('versionDetails').style.display = 'block';
     document.getElementById('backButtonScreen').style.display = 'block';
-//    document.getElementById('versionSection').style.display = 'block';
 
     if (versionLoaded === 'loaded') {
         return; // Ha igen, nem töltjük be újra
