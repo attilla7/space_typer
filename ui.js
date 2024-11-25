@@ -1,5 +1,7 @@
 //ui.js
 
+import { setupNameManagement, getPlayerName } from './name.js';
+
 export function updateDisplays(level1, score, tasksLeft, level) {
     if (level > 100 && level < 113) {
         document.getElementById('level').textContent = level + " / 101-112";
@@ -21,6 +23,8 @@ export function updateDisplays(level1, score, tasksLeft, level) {
 }
 
 export function showCompletionMessage(level) {
-    alert(`Gratulálunk! A(z) ${level}. szint teljesítve.`);
+  const endMessage = `Gratulálok, ${getPlayerName()}! Teljesítetted a(z) ${level}. szintet!`;
+  alert(endMessage);
     // További funkció hozzáadható később, mint például statisztika kijelzése vagy folytatás.
 }
+

@@ -15,11 +15,19 @@
             <p id="currentVersion"></p>
         </div>
         <h1>Space Typer</h1>
+        <div>
+            <p id="playerNameDisplay">
+                Játékos: <span id="playerName">Névtelen űrhajó kapitány</span>
+                <button id="editNameButton">Név módosítása</button>
+            </p>
+        </div>
+
         <div id="levelButtonsContainer"></div> <!-- Ide kerülnek a szintgombok -->
     </div>
     
     <div id="game" style="display: none;">
         <h2>Space Typer</h2>
+        <p id="currentPlayer">Játékos: <span id="currentPlayerName">Névtelen űrhajós kapitány</span></p>
         <div id="status">
             <p>Kezdő szint: <span id="level1">0</span></p>
             <p>Szint: <span id="level">0</span></p>
@@ -46,6 +54,17 @@
 
     <div id="backButtonScreen" style="display: none;">
         <button id="backButton">Vissza</button>
+    </div>
+
+    <!-- Modális ablak a név módosítására -->
+    <div id="nameModal" style="display: none;">
+        <div id="nameModalContent">
+            <h3>Név módosítása</h3>
+            <input type="text" id="playerNameInput" placeholder="Add meg a neved!">
+            <button id="saveNameButton">Mentés</button>
+            <button id="cancelNameButton">Mégse</button>
+            <button id="resetNameButton">Név törlése</button>
+        </div>
     </div>
 
 </body>

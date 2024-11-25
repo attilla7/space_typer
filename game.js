@@ -154,6 +154,14 @@ function spaceshipFlying() {
         maxPosition = window.innerWidth - 160; // ha 60px az űrhajó szélessége
         spaceshipSpeed = maxPosition / maxSteps;
  //       spaceshipPosition += spaceshipSpeed * 20;  // Űrhajó pozíciójának frissítése
+ 
+//  pozíciók közt átugrás 
         spaceshipPosition += spaceshipSpeed * 0.9;  // Űrhajó pozíciójának frissítése
         document.getElementById('spaceship').style.left = spaceshipPosition + 'px';
+
+//  átmozgás minden köztes pixelen
+
+//  fel-le random képernyő magasság * 0.25 elmozdulás
+
+//  lehet-e folyamatos random mozgást belerakni addig, amíg a billentyűkre vár?
 }

@@ -291,3 +291,25 @@ body {
     margin: 0;
     padding: 0 50px;
 }
+
+#playerNameInput {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#saveNameButton {
+    padding: 8px 16px;
+    font-size: 16px;
+    background-color: #333;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#playerNameDisplay {
+    margin-top: 10px;
+    font-size: 18px;
+    color: #fff;
+}

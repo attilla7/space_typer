@@ -3,8 +3,12 @@
 import { startGame, initializeGame, levelStart } from './game.js';
 import { showLevels, showLevelInfo } from './levels.js';
 import { displayCurrentVersion, showVersionInfo } from './version.js';
+import { setupNameManagement, getPlayerName } from "./name.js";
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    setupNameManagement();
+
     // Kezdőoldal elemeinek megjelenítése
     document.getElementById('startScreen').style.display = 'block';
 
