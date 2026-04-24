@@ -1,13 +1,25 @@
 {
-    "current_version": "v0.6",
+    "current_version": "v0.7",
     "versions": [
         {
             "version": "1.0",
             "date": "...",
             "description": [
-                "Statisztika",
-                "Saját képek használata",
+                "Online eredménylista",
                 "Online elhelyezés"
+            ]
+        },
+        {
+            "version": "v0.7",
+            "date": "2026-04-24",
+            "description": [
+                "Eredménylista",
+                "Pontozás javítása",
+                "Időmérés javítása",
+                "Egyedi képek: TensorArt, ChatGPT",
+                "Űrhajó animálás",
+                "Űrhajó választás",
+                "Játéktér elrendezés igazítása"
             ]
         },
         {

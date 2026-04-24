@@ -1,37 +1,50 @@
-//main.js
+// main.js
 
-import { startGame, initializeGame, levelStart } from './game.js';
+import { startGame, initializeGame, levelStart, openStatsFromEnd } from './game.js';
 import { showLevels, showLevelInfo } from './levels.js';
 import { displayCurrentVersion, showVersionInfo } from './version.js';
 import { setupNameManagement, getPlayerName } from "./name.js";
+import { showStats, hideStats } from './stats.js';
+import { setupSpaceshipSelector } from './spaceship.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
     setupNameManagement();
+    setupSpaceshipSelector();
 
-    // Kezdőoldal elemeinek megjelenítése
     document.getElementById('startScreen').style.display = 'block';
 
-    // Szintek betöltése és inicializálása
     fetch('levels.json')
         .then(response => response.json())
         .then(data => {
-            // A szintek adatainak inicializálása
-            initializeGame(data); // Meghívjuk az initializeGame függvényt
-            showLevels(); // Szintek megjelenítése
+            initializeGame(data);
+            showLevels();
         })
         .catch(error => console.error('Szintek betöltése nem sikerült:', error));
 
-    // Vissza gomb
     document.getElementById('backButton').addEventListener('click', () => backback());
 
-    // JSON betöltése
     const levelButtonsContainer = document.getElementById('levelButtonsContainer');
-    levelButtonsContainer.innerHTML = ''; // Törölni az előző gombokat.
+    levelButtonsContainer.innerHTML = '';
 
     displayCurrentVersion();
-    // Verziószám kattintásra
     document.getElementById('currentVersion').addEventListener('click', showVersionInfo);
+
+    document.getElementById('statsButton').addEventListener('click', () => showStats(null));
+    document.getElementById('statsBackButton').addEventListener('click', hideStats);
+
+    document.getElementById('ujjrendButton').addEventListener('click', () => {
+        document.getElementById('startScreen').style.display = 'none';
+        document.getElementById('ujjrendScreen').style.display = 'block';
+        document.getElementById('backButtonScreen').style.display = 'block';
+    });
+
+    document.getElementById('endStatsButton').addEventListener('click', () => openStatsFromEnd());
+
+    document.getElementById('endMenuButton').addEventListener('click', () => {
+        document.getElementById('endScreen').style.display = 'none';
+        document.getElementById('startScreen').style.display = 'block';
+    });
 
 });
 
@@ -42,4 +55,7 @@ function backback() {
     document.getElementById('backButtonScreen').style.display = 'none';
     document.getElementById('game').style.display = 'none';
     document.getElementById('levelInfo').style.display = 'none';
+    document.getElementById('statsScreen').style.display = 'none';
+    document.getElementById('endScreen').style.display = 'none';
+    document.getElementById('ujjrendScreen').style.display = 'none';
 }

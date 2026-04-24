@@ -15,16 +15,29 @@
             <p id="currentVersion"></p>
         </div>
         <h1>Space Typer</h1>
-        <div>
-            <p id="playerNameDisplay">
-                Játékos: <span id="playerName">Névtelen űrhajó kapitány</span>
-                <button id="editNameButton">Név módosítása</button>
-            </p>
+
+        <div id="playerAndShipSection">
+            <div id="playerNameSection">
+                <p id="playerNameDisplay">
+                    Játékos: <span id="playerName">Névtelen űrhajó kapitány</span>
+                    <button id="editNameButton">Név módosítása</button>
+                </p>
+            </div>
+            <div id="spaceshipSection">
+                <img id="spaceshipPreview" src="" alt="Űrhajó" width="60" height="60">
+                <span id="spaceshipName"></span>
+                <button id="editSpaceshipButton">Űrhajó választása</button>
+            </div>
         </div>
 
-        <div id="levelButtonsContainer"></div> <!-- Ide kerülnek a szintgombok -->
+        <div id="levelButtonsContainer"></div>
+
+        <div id="startScreenButtons">
+            <button id="statsButton">Eredmények</button>
+            <button id="ujjrendButton">Ujjrend</button>
+        </div>
     </div>
-    
+
     <div id="game" style="display: none;">
         <h2>Space Typer</h2>
         <p id="currentPlayer">Játékos: <span id="currentPlayerName">Névtelen űrhajós kapitány</span></p>
@@ -36,7 +49,7 @@
             <p>Feladatok hátra: <span id="tasksLeft">0</span></p>
         </div>
         <div id="gameArea">
-            <img id="spaceship" src="pictures/spaceship.png" alt="Spaceship">
+            <img id="spaceship" src="" alt="Spaceship">
             <p id="targetText"></p>
         </div>
     </div>
@@ -44,8 +57,13 @@
     <div id="levelInfo" style="display: none;">
         <h3>Szint Információk</h3>
         <p id="requiredKeys">Szükséges billentyűk: <span id="keyList"></span></p>
-        <img src="pictures/keyboard-guide.png" alt="Keyboard guide">
+        <img src="pictures/keyboard_2.png" alt="Keyboard guide">
         <p>Nyomd meg a szóközt a kezdéshez.</p>
+    </div>
+
+    <div id="ujjrendScreen" style="display: none;">
+        <h2>Ujjrend</h2>
+        <img src="pictures/keyboard_1.png" alt="Ujjrend">
     </div>
 
     <div id="versionDetails" style="display: none;">
@@ -57,7 +75,22 @@
         <button id="backButton">Vissza</button>
     </div>
 
-    <!-- Modális ablak a név módosítására -->
+    <div id="endScreen" style="display: none;">
+        <h2>Szintcsoport teljesítve!</h2>
+        <p id="endPlayer"></p>
+        <p id="endScore"></p>
+        <p id="endTime"></p>
+        <p id="endBest"></p>
+        <button id="endStatsButton">Eredmények megtekintése</button>
+        <button id="endMenuButton">Főmenü</button>
+    </div>
+
+    <div id="statsScreen" style="display: none;">
+        <h2>Eredménylista</h2>
+        <div id="statsContent"></div>
+        <button id="statsBackButton">Vissza a főmenübe</button>
+    </div>
+
     <div id="nameModal" style="display: none;">
         <div id="nameModalContent">
             <h3>Név módosítása</h3>
@@ -65,6 +98,14 @@
             <button id="saveNameButton">Mentés</button>
             <button id="cancelNameButton">Mégse</button>
             <button id="resetNameButton">Név törlése</button>
+        </div>
+    </div>
+
+    <div id="spaceshipModal" style="display: none;">
+        <div id="spaceshipModalContent">
+            <h3>Válassz űrhajót</h3>
+            <div id="spaceshipGrid"></div>
+            <button id="cancelSpaceshipButton">Mégse</button>
         </div>
     </div>
 

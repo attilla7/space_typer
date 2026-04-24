@@ -1,200 +1,311 @@
-//game.js
+// game.js
 
 import { updateDisplays, showCompletionMessage } from './ui.js';
 import { showLevelInfo } from './levels.js';
 import { startTimer, stopTimer, getTimeElapsed, resetTimer } from './timer.js';
+import { saveResult, getLevelGroupKey, showStats } from './stats.js';
+import { getPlayerName } from './name.js';
+import { getSelectedShipImagePath, getSelectedShipId } from './spaceship.js';
 
-let actualLevel = null;  // A globális változó a kiválasztott szinthez
-let startLevel = null; //később lesz rá szükség
-let score = 0;  // Reset játékállapot
+let actualLevel = null;
+let startLevel = null;
+let score = 0;
 let tasksLeft = 5;
 let spaceshipSpeed = 1;
 let spaceshipPosition = 0;
 let spaceshipHeight = 80;
 let currentLetter = '';
-let levelData = [];  // A globális változó a szintek adatainak tárolásához
+let taskPoisoned = false;
+let levelData = [];
 let characters = null;
 let maxSteps = null;
 let maxPosition = null;
-export let levelGroupStartTime = null; // Globális változó a szintcsoportok időméréséhez
-let totalGroupTime = 0; // Globális változó a szintcsoportok időméréséhez
+export let levelGroupStartTime = null;
+let totalGroupTime = 0;
 let spaceshipMoveInterval = null;
+let floatInterval = null;
+let pendingResult = null;
+let topOffset = 190;
+let backButtonHeight = 70;
 
-export function initializeGame(data) {
-    levelData = data.levels;  // A szintek adatainak betöltése
+const LEVEL_GROUPS_DEF = [
+    { starts: 101, ends: 103 },
+    { starts: 104, ends: 106 },
+    { starts: 107, ends: 109 },
+    { starts: 110, ends: 112 },
+    { starts: 1,   ends: 5   },
+    { starts: 6,   ends: 10  },
+    { starts: 11,  ends: 15  },
+    { starts: 16,  ends: 20  },
+    { starts: 21,  ends: 25  },
+    { starts: 26,  ends: 30  },
+    { starts: 31,  ends: 35  },
+    { starts: 36,  ends: 40  },
+    { starts: 41,  ends: 45  },
+    { starts: 46,  ends: 50  },
+    { starts: 51,  ends: 55  },
+    { starts: 56,  ends: 60  },
+    { starts: 61,  ends: 65  },
+    { starts: 66,  ends: 70  },
+    { starts: 71,  ends: 75  },
+    { starts: 76,  ends: 80  },
+];
+
+function isLastInGroup(levelNum) {
+    const group = LEVEL_GROUPS_DEF.find(g => levelNum >= g.starts && levelNum <= g.ends);
+    return group ? levelNum === group.ends : false;
 }
 
-// Játék indítása egy adott szinttel
+function getLevelGroupInfo(levelNum) {
+    const group = LEVEL_GROUPS_DEF.find(g => levelNum >= g.starts && levelNum <= g.ends);
+    if (!group) return { index: 0, total: 1 };
+    return {
+        index: levelNum - group.starts,
+        total: group.ends - group.starts + 1
+    };
+}
+
+function getLevelRowCenter(index, total) {
+    const spaceshipSize = 60;
+    const gameEl = document.getElementById('game');
+    const gameHeight = gameEl ? gameEl.clientHeight : window.innerHeight;
+
+    const topLimit = topOffset + 60;
+    const bottomRaw = gameHeight - backButtonHeight - 10 - spaceshipSize - 10;
+    const usableHeight = (bottomRaw - topLimit) * 0.88;
+
+    if (total <= 1) return topLimit;
+    return Math.round(topLimit + (usableHeight / (total - 1)) * index);
+}
+
+function setSpaceshipRow(levelNum) {
+    console.log('setSpaceshipRow hívva:', levelNum, 'topOffset:', topOffset, 'backButtonHeight:', backButtonHeight);
+    const { index, total } = getLevelGroupInfo(levelNum);
+    const y = getLevelRowCenter(index, total);
+    console.log('setSpaceshipRow:', levelNum, 'index:', index, 'total:', total, 'y:', y);
+    spaceshipHeight = getLevelRowCenter(index, total);
+    spaceshipPosition = 0;
+    const spaceship = document.getElementById('spaceship');
+    spaceship.style.left = spaceshipPosition + 'px';
+    spaceship.style.top = spaceshipHeight + 'px';
+}
+
+function startFloatAnimation(centerX, centerY) {
+    console.log('startFloatAnimation centerY:', centerY);
+    stopFloatAnimation();
+    const spaceship = document.getElementById('spaceship');
+    if (!spaceship) return;
+    floatInterval = setInterval(() => {
+        const dx = (Math.random() - 0.5) * 6;
+        const dy = (Math.random() - 0.5) * 10;
+        spaceship.style.left = (centerX + dx) + 'px';
+        spaceship.style.top  = (centerY + dy) + 'px';
+    }, 100);
+}
+
+function stopFloatAnimation() {
+    if (floatInterval) {
+        clearInterval(floatInterval);
+        floatInterval = null;
+    }
+}
+
+function setRandomBackground() {
+    const n = Math.floor(Math.random() * 12) + 1;
+    const path = `pictures/stars_${String(n).padStart(2, '0')}.jpg`;
+    document.getElementById('game').style.backgroundImage = `url('${path}')`;
+}
+
+export function initializeGame(data) {
+    levelData = data.levels;
+}
+
 export function startGame(selectedLevel) {
-    // Reset időmérők
     resetTimer();
-    
-    // Beállítjuk a kiválasztott szintet
+    totalGroupTime = 0;
+    pendingResult = null;
+
     actualLevel = levelData.find(level => level.level === selectedLevel);
     startLevel = actualLevel.level;
 
-    // A szint és szintcsoport időmérési időpontjainak rögzítése
-    const levelGroupStart1 = [
+    const levelGroupStarts = [
         101, 104, 107, 110,
         1, 6, 11, 16, 21, 26,
         31, 36, 41, 46, 51, 56,
         61, 66, 71, 76
     ];
-    if (levelGroupStart1.includes(selectedLevel)) {
-        levelGroupStartTime = Date.now(); // Első szint kezdete, szintcsoport idő mérésének indítása
+    if (levelGroupStarts.includes(selectedLevel)) {
+        levelGroupStartTime = Date.now();
+        setRandomBackground();
     }
 
     if (!actualLevel) {
         console.error(`A szint adatai nem találhatók: ${selectedLevel}`);
         return;
     }
-    // Reset játékállapot
+
+    score = 0;
     spaceshipPosition = 0;
-    spaceshipHeight = 80;
     tasksLeft = actualLevel.tasks;
     characters = actualLevel.characterCount;
 
-    // Játék kezdete: űrhajó pozíciója
-    document.getElementById('spaceship').style.left = spaceshipPosition + 'px';
-    document.getElementById('spaceship').style.top = spaceshipHeight + 'px';
-
-    // Szint információk megjelenítése
     showLevelInfo(actualLevel);
 }
 
 function generateTarget(keys) {
     let keySequence = [];
-    // Generáljunk egy karakterláncot a characterCount alapján
     for (let i = 0; i < actualLevel.characterCount; i++) {
         const letter = keys[Math.floor(Math.random() * keys.length)];
         keySequence.push(letter);
     }
-
-    currentLetter = keySequence.join(''); // Az összes karaktert most már egy karakterlánccá alakítjuk
-
+    currentLetter = keySequence.join('');
+    taskPoisoned = false;
     document.getElementById('targetText').textContent = `Nyomd meg: ${currentLetter.toUpperCase()}`;
 }
 
 document.addEventListener('keydown', (event) => {
-    if (currentLetter[0] === event.key) { // Ellenőrizzük, hogy az első karakter egyezik-e a megnyomott billentyűvel
-        currentLetter = currentLetter.slice(1); // Eltávolítjuk az első karaktert, ha helyes volt
-        score++;
+    if (!currentLetter) return;
 
-        // Ha nincs több karakter, csökkentjük a feladatok számát
+    if (currentLetter[0] === event.key) {
+        currentLetter = currentLetter.slice(1);
+
         if (currentLetter.length === 0) {
-            tasksLeft--; // Feladatok számának csökkentése, ha minden karaktert beírtak
-            generateTarget(actualLevel.keys); // Új karakterek generálása
+            if (!taskPoisoned) score++;
+            tasksLeft--;
+            if (tasksLeft > 0) generateTarget(actualLevel.keys);
         }
 
         spaceshipFlying();
 
-        // Ha nincs több hátralévő feladat, vagy elérte a célt, befejezzük a szintet
         if (tasksLeft <= 0) {
-            showCompletionMessage(actualLevel.level);  // Sikeres szint üzenet
-            nextLevel();               // Következő szint elindítása
+            showCompletionMessage(actualLevel.level);
+            nextLevel();
+            return;
         }
 
-        updateDisplays(startLevel, score, tasksLeft, actualLevel.level);  // Képernyő frissítése
+        updateDisplays(startLevel, score, tasksLeft, actualLevel.level);
+
+    } else {
+        if (event.key.length === 1) taskPoisoned = true;
     }
 });
 
 function nextLevel() {
-    if (!actualLevel) return; //????????????????
+    if (!actualLevel) return;
 
-    // Következő szint adatainak beállítása
-    const nextLevelData = levelData.find(l => l.level === actualLevel.level + 1);
-    if (!nextLevelData) return;
+    const completedLevel = actualLevel.level;
+
+    if (isLastInGroup(completedLevel)) {
+        finishGroup();
+        return;
+    }
+
+    const nextLevelData = levelData.find(l => l.level === completedLevel + 1);
+    if (!nextLevelData) {
+        finishGroup();
+        return;
+    }
 
     actualLevel = nextLevelData;
     tasksLeft = actualLevel.tasks;
-    characters = nextLevelData.characterCount;
+    characters = actualLevel.characterCount;
 
-    const levelIds1 = [
-        104, 107, 110
-    ];
-    const levelIds2 = [
-        6, 11, 16, 21, 26,
-        31, 36, 41, 46, 51, 56,
-        61, 66, 71, 76
-    ];
-    if (levelIds1.includes(actualLevel.level)) {  // szám blokk vége
-            console.log(`A szintcsoport (pl. 1-5) ideje összesen: ${totalGroupTime.toFixed(2)} másodperc.`);
-            totalGroupTime = 0; // Reset a szintcsoport időmérése
-            startGame(actualLevel.level);
-        } else if (levelIds2.includes(actualLevel.level)) {  // betű blokk vége
-            console.log(`A szintcsoport (pl. 1-5) ideje összesen: ${totalGroupTime.toFixed(2)} másodperc.`);
-            totalGroupTime = 0; // Reset a szintcsoport időmérése
-            startGame(actualLevel.level);
-        } else if (actualLevel.level === 113) {  // betű blokk vége
-            alert(`Befejezted a 12. számbillentyűs szintet.`);
-            console.log(`A szintcsoport (pl. 1-5) ideje összesen: ${totalGroupTime.toFixed(2)} másodperc.`);
-            totalGroupTime = 0; // Reset a szintcsoport időmérése
-            backback();
-        } else if (actualLevel.level === 81) {  // betű blokk vége
-            alert(`Befejezted a 80. kétkezes szintet.`);
-            console.log(`A szintcsoport (pl. 1-5) ideje összesen: ${totalGroupTime.toFixed(2)} másodperc.`);
-            totalGroupTime = 0; // Reset a szintcsoport időmérése
-            backback();
-        } else {  // simán következő szint
-            console.log(`A szintcsoport (pl. 1-5) ideje összesen: ${totalGroupTime.toFixed(2)} másodperc.`);
-            // Visszaállítjuk a pozíciókat az új szint kezdéséhez
-            spaceshipPosition = 0;
-            spaceshipHeight += 50;
-            document.getElementById('spaceship').style.left = spaceshipPosition + 'px';
-            document.getElementById('spaceship').style.top = spaceshipHeight + 'px';
+    stopFloatAnimation();
+    setSpaceshipRow(actualLevel.level);
+    startFloatAnimation(spaceshipPosition, spaceshipHeight);
 
-            // Új cél generálása
-            generateTarget(actualLevel.keys);
-            updateDisplays(startLevel, score, tasksLeft, actualLevel.level);
-        }
-    };
+    generateTarget(actualLevel.keys);
+    updateDisplays(startLevel, score, tasksLeft, actualLevel.level);
+}
 
-// Szint indítása
+function finishGroup() {
+    currentLetter = '';
+    stopFloatAnimation();
+    stopTimer();
+
+    const groupTime = getTimeElapsed();
+    const playerName = getPlayerName();
+    const shipId = getSelectedShipId();
+    const groupKey = getLevelGroupKey(startLevel);
+    const previousBest = saveResult(groupKey, playerName, groupTime, score, shipId);
+
+    totalGroupTime = 0;
+    pendingResult = { groupKey, playerName, time: groupTime, score, shipId, previousBest };
+
+    document.getElementById('game').style.display = 'none';
+    document.getElementById('backButtonScreen').style.display = 'none';
+    document.getElementById('endScreen').style.display = 'block';
+
+    document.getElementById('endPlayer').textContent = `Játékos: ${playerName}`;
+    document.getElementById('endScore').textContent = `Pontszám: ${score}`;
+    document.getElementById('endTime').textContent = `Idő: ${groupTime.toFixed(2)} s`;
+
+    const endBestEl = document.getElementById('endBest');
+    if (previousBest !== null && groupTime < previousBest.time) {
+        endBestEl.textContent = `Új rekord! (előző: ${previousBest.time.toFixed(2)} s)`;
+        endBestEl.style.display = 'block';
+    } else if (previousBest !== null) {
+        endBestEl.textContent = `Legjobb időd ebben a csoportban: ${previousBest.time.toFixed(2)} s`;
+        endBestEl.style.display = 'block';
+    } else {
+        endBestEl.style.display = 'none';
+    }
+}
+
+export function openStatsFromEnd() {
+    showStats(pendingResult);
+}
+
 export function levelStart(level) {
-    console.log(`Szint elindítva: ${level.level}`); //debug
-    console.log(`Feladatok száma: ${level.tasks}`); //debug
-    console.log(`Karakterek száma: ${level.characterCount}`); //debug
-    console.log(`Gombok: ${level.keys}`); //debug
-
-    // Szint adatainak beállítása
     actualLevel = level;
     tasksLeft = level.tasks;
     characters = level.characterCount;
-    
-    // Kezdő képernyő eltüntetése
+
     document.getElementById('startScreen').style.display = 'none';
     document.getElementById('levelInfo').style.display = 'none';
     document.getElementById('game').style.display = 'block';
     document.getElementById('backButtonScreen').style.display = 'block';
 
-    stopSpaceshipAnimation(); // Animáció megállítása
-    
-    startTimer(); // Időzítő indítása itt
+    document.getElementById('spaceship').src = getSelectedShipImagePath();
 
-    // cél generálása
+    stopSpaceshipAnimation();
+    startTimer();
     generateTarget(actualLevel.keys);
-
-    // Megjelenítések frissítése
     updateDisplays(startLevel, score, tasksLeft, actualLevel.level);
+
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            const gameEl = document.getElementById('game');
+            const h2El = gameEl ? gameEl.querySelector('h2') : null;
+            const playerEl = document.getElementById('currentPlayer');
+            const statusEl = document.getElementById('status');
+            const targetEl = document.getElementById('targetText');
+            const backEl = document.getElementById('backButtonScreen');
+
+            let measuredTop = 20;
+            if (h2El) measuredTop += h2El.offsetHeight + 8;
+            if (playerEl) measuredTop += playerEl.offsetHeight + 4;
+            if (statusEl) measuredTop += statusEl.offsetHeight + 8;
+            if (targetEl) measuredTop += targetEl.offsetHeight + 8;
+            topOffset = measuredTop > 80 ? measuredTop : 190;
+            backButtonHeight = backEl ? backEl.offsetHeight : 70;
+
+            setSpaceshipRow(level.level);
+            startFloatAnimation(spaceshipPosition, spaceshipHeight);
+        });
+    });
 }
 
 function spaceshipFlying() {
-        // Maximális lépések számának kiszámítása
-        maxSteps = actualLevel.tasks * actualLevel.characterCount;
-        // Maximális pozíció számítása (képernyő szélessége - űrhajó szélessége)
-        maxPosition = window.innerWidth - 160; // ha 60px az űrhajó szélessége
-        spaceshipSpeed = maxPosition / maxSteps;
- //       spaceshipPosition += spaceshipSpeed * 20;  // Űrhajó pozíciójának frissítése
- 
-//  pozíciók közt átugrás 
-        spaceshipPosition += spaceshipSpeed * 0.9;  // Űrhajó pozíciójának frissítése
-        document.getElementById('spaceship').style.left = spaceshipPosition + 'px';
+    maxSteps = actualLevel.tasks * actualLevel.characterCount;
+    maxPosition = window.innerWidth - 160;
+    spaceshipSpeed = maxPosition / maxSteps;
+    spaceshipPosition += spaceshipSpeed * 0.9;
+
+    stopFloatAnimation();
+    startFloatAnimation(spaceshipPosition, spaceshipHeight);
 }
-//  átmozgás minden köztes pixelen
 
-//  fel-le random képernyő magasság * 0.25 elmozdulás
-
-//  lehet-e folyamatos random mozgást belerakni addig, amíg a billentyűkre vár?
 export function startSpaceshipAnimation() {
     if (!spaceshipMoveInterval) {
         spaceshipMoveInterval = setInterval(() => {

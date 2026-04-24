@@ -1,4 +1,4 @@
-//timer.js
+// timer.js
 
 let startTime = null;
 let elapsedTime = 0;
@@ -17,6 +17,7 @@ export function startTimer() {
 
 export function stopTimer() {
     clearInterval(timerInterval);
+    timerInterval = null;
 }
 
 export function getTimeElapsed() {
@@ -26,4 +27,5 @@ export function getTimeElapsed() {
 export function resetTimer() {
     elapsedTime = 0;
     clearInterval(timerInterval);
+    timerInterval = null;
 }

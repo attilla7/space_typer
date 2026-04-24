@@ -1,44 +1,87 @@
 /* style.css */
 
-/* Kezdőképernyő háttérszín */
+/* Kezdőképernyő */
 #startScreen {
-    background-color: black; /* Módosítva, hogy sötét háttér legyen */
+    background-color: black;
+    background-image: url('pictures/main.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
     color: white;
     font-family: Arial, sans-serif;
     text-align: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px; /* Térköz hozzáadása a szöveg körül */
-    border-radius: 10px; /* Esztétikusabb kerekített szegély */
-    padding: 20px; /* Térköz hozzáadása a szöveg körül */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+#startScreenButtons {
+    margin-top: 10px;
+}
+
+/* Ujjrend oldal */
+#ujjrendScreen {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+#ujjrendScreen img {
+    max-width: 100%;
+    max-height: calc(100vh - 120px);
+    margin-top: 10px;
 }
 
 /* Játék képernyő */
 #game {
-    width: 98vw;
-    height: 95vh;
+    width: 100vw;
+    height: 100vh;
     background-color: black;
-    background-image: url('pictures/stars.png');
+    background-image: url('pictures/stars_01.jpg');
     background-size: cover;
     background-repeat: no-repeat;
-    position: relative;
-    padding: 20px; /* Térköz hozzáadása a szöveg körül */
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    box-sizing: border-box;
     color: rgb(255, 255, 180);
+    overflow: hidden;
 }
 
+/* gameArea: nem pozicionál, csak a flow-ban van – az űrhajó a #game-hez képest absolute */
+#gameArea {
+    position: static;
+    height: 0;
+    overflow: visible;
+}
+
+/* Vissza gomb */
 #backButtonScreen {
-    padding: 20px; /* Térköz hozzáadása a szöveg körül */
-    position: absolute;
-    text-align: center;
+    position: fixed;
+    bottom: 10px;
+    left: 0;
     width: 100%;
-    display: block; 
-    bottom: -150px;
+    text-align: center;
+    z-index: 10;
 }
 
 #background {
-    background-image: url('pictures/stars.png');
+    background-image: url('pictures/stars_01.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     width: 100%;
@@ -46,22 +89,23 @@
     position: absolute;
 }
 
+/* Űrhajó – a #game-hez képest absolute, sima lebegő animáció */
 #spaceship {
     width: 60px;
     height: 60px;
-    background-image: url('pictures/spaceship.png');
-    position: absolute; 
+    position: absolute;
     left: 0;
     top: 80px;
+    transition: left 0.08s ease-out, top 0.08s ease-out;
 }
 
 #targetText {
-    position: absolute;
-    top: 20px;
     width: 100%;
     text-align: center;
     font-size: 24px;
     color: white;
+    margin: 0;
+    padding: 4px 0;
 }
 
 #levelSelection button {
@@ -88,22 +132,11 @@
     position: absolute;
 }
 
-#scoreDisplay {
-    top: 10px;
-    right: 230px;
-}
+#scoreDisplay { top: 10px; right: 230px; }
+#tasksDisplay { top: 10px; right: 20px; }
+#levelDisplay { top: 10px; left: 120px; }
 
-#tasksDisplay {
-    top: 10px;
-    right: 20px;
-}
-
-#levelDisplay {
-    top: 10px;
-    left: 120px;
-}
-
-/* Gomb stílusok */
+/* Gombok */
 button {
     font-size: 18px;
     color: rgb(255, 255, 180);
@@ -113,25 +146,13 @@ button {
     margin: 10px;
     border-radius: 5px;
     transition: background-color 0.3s;
+    cursor: pointer;
 }
-/*
-#backButton {
-    color: rgb(255, 255, 180);
-     display: block;
-    text-align: center;
-}
-*/
-#selectLevel,
-#startGame {
+
+#selectLevel, #startGame {
     border-radius: 5px;
     transition: background-color 0.3s;
 }
-
-/* 
-button:hover {
-    background-color: #555;
-}
- */
 
 #versionInfo {
     color: gray;
@@ -146,72 +167,41 @@ button:hover {
 }
 
 #versionSection {
-    background-color: black; /* Módosítva, hogy sötét háttér legyen */
+    background-color: black;
     color: white;
     font-family: Arial, sans-serif;
     text-align: center;
     position: absolute;
     display: flex;
-    align-items: center; /* Középre igazítja a szöveget */
-    margin: 20px 0; /* Térköz a verzió szekció körül */
+    align-items: center;
+    margin: 20px 0;
 }
 
-#versionNumber {
-    font-weight: bold; /* A 'Verzió:' szöveg kiemelése */
-    margin-right: 10px; /* Kis távolság a verzió számától */
-}
-
-#currentVersion {
-    font-style: italic; /* A verzió számot dőlt betűvel jeleníti meg */
-    color: white;
-}
+#versionNumber { font-weight: bold; margin-right: 10px; }
+#currentVersion { font-style: italic; color: white; }
 
 #versionDetails {
-    background-color: black; /* Módosítva, hogy sötét háttér legyen */
+    background-color: black;
     color: rgb(255, 255, 180);
     font-family: Arial, sans-serif;
     text-align: center;
-    position: relative;
-    left: 50%;
-    transform: translate(-50%);
-    padding: 20px; /* Térköz hozzáadása a szöveg körül */
-    border-radius: 10px; /* Esztétikusabb kerekített szegély */
+    padding: 20px 20px 80px 20px;
+    border-radius: 10px;
     margin-top: 20px;
-    display: intrinsic; 
-    height: fit-content;
-
 }
 
 #versionHistory {
-    display: intrinsic; 
-    height: fit-content;
-/*      flex-direction: column; */
-    gap: 1rem; /* Távolság a verzióelemek között */
-    padding: 10px; /* Esetleg némi paddinget is */
-    padding-bottom: 50px;
-    /* overflow-y: auto; /* Ha sok verzió van, görgethetővé teszi */
-    max-height: stretch; /* Képernyőhöz igazítva megakadályozza, hogy túlcsússzon */
+    gap: 1rem;
+    padding: 10px;
     text-align: center;
     color: rgb(200, 200, 150);
     margin-top: 10px;
-    margin-bottom: 100px;
-    position: relative;
-
+    margin-bottom: 20px;
 }
 
-h2 {
-    color: rgb(255, 255, 230);
-}
+h2 { color: rgb(255, 255, 230); }
+h3 { color: rgb(230, 230, 200); }
 
-h3 {
-    color: rgb(230, 230, 200);
-}
-
-/*
-#versionHeader {
-    color: rgb(230, 230, 150);
-}
-*/
 .versionItem {
     padding: 15px;
     border: 1px solid #ccc;
@@ -220,20 +210,8 @@ h3 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.versionTitle {
-    font-weight: bold;
-    font-size: 1.2em;
-    color: #333;
-    margin-bottom: 8px;
-}
-
-.versionDate,
-.versionDescription {
-    font-size: 1em;
-    color: #555;
-    margin: 0;
-    padding: 2px 0;
-}
+.versionTitle { font-weight: bold; font-size: 1.2em; color: #333; margin-bottom: 8px; }
+.versionDate, .versionDescription { font-size: 1em; color: #555; margin: 0; padding: 2px 0; }
 
 body {
     font-family: Arial, sans-serif;
@@ -242,19 +220,7 @@ body {
     text-align: center;
 }
 
-#gameArea {
-    position: relative;
-    width: 90%;
-    height: 400px;
-    margin: 0 auto;
-/*    background-image: url('background.jpg'); */
-    background-size: cover;
-}
-
-#levelInfo img {
-    width: 750px;
-    margin: 20px 0;
-}
+#levelInfo img { width: 750px; margin: 20px 0; }
 
 #levelButtonsContainer {
     display: flex;
@@ -262,35 +228,17 @@ body {
     gap: 10px;
     justify-content: center;
 }
-/*
-.level-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-*/
-.level-button:hover {
-    background-color: rgb(255, 255, 180);
-    color: #333;
-}
+
+.level-button:hover { background-color: rgb(255, 255, 180); color: #333; }
 
 #status {
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 18px;
-/*    margin-bottom: 20px;*/
 }
 
-#status p {
-    margin: 0;
-    padding: 0 50px;
-}
+#status p { margin: 0; padding: 0 50px; }
 
 #playerNameInput {
     padding: 8px;
@@ -308,8 +256,196 @@ body {
     cursor: pointer;
 }
 
-#playerNameDisplay {
-    margin-top: 10px;
-    font-size: 18px;
-    color: #fff;
+#playerNameDisplay { margin-top: 10px; font-size: 18px; color: #fff; }
+
+/* ── Játékos + Űrhajó szekció a főoldalon ── */
+#playerAndShipSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin: 10px 0 16px 0;
 }
+
+#spaceshipSection {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    font-size: 16px;
+}
+
+#spaceshipPreview {
+    border: 1px solid #555;
+    border-radius: 6px;
+    background-color: #111;
+    padding: 2px;
+}
+
+#spaceshipName {
+    color: rgb(255, 255, 180);
+    font-size: 15px;
+    min-width: 120px;
+    text-align: left;
+}
+
+/* ── Űrhajó választó modal ── */
+#spaceshipModal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#spaceshipModalContent {
+    background-color: #111;
+    border: 1px solid #444;
+    border-radius: 10px;
+    padding: 24px;
+    max-width: 700px;
+    max-height: 80vh;
+    overflow-y: auto;
+    text-align: center;
+}
+
+#spaceshipModalContent h3 { color: rgb(255, 255, 180); margin-bottom: 16px; }
+
+#spaceshipGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.spaceshipGridItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 8px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+    background-color: #1a1a1a;
+}
+
+.spaceshipGridItem:hover { background-color: #2a2a2a; border-color: #666; }
+.spaceshipGridItem.selected { border-color: #4fc3f7; background-color: #0d2a38; }
+.spaceshipGridItem span { font-size: 12px; color: #ccc; text-align: center; }
+.spaceshipGridItem.selected span { color: #4fc3f7; }
+
+/* ── Névmódosító modal ── */
+#nameModal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#nameModalContent {
+    background-color: #111;
+    border: 1px solid #444;
+    border-radius: 10px;
+    padding: 24px;
+    text-align: center;
+}
+
+/* ── Végképernyő ── */
+#endScreen {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 30px 40px;
+    border-radius: 10px;
+    border: 1px solid #444;
+    min-width: 320px;
+}
+
+#endScreen h2 { font-size: 26px; margin-bottom: 16px; color: rgb(255, 255, 180); }
+#endPlayer { color: #aaa; font-size: 15px; margin: 4px 0; }
+#endScore { font-size: 22px; font-weight: bold; color: #fff; margin: 10px 0; }
+#endTime { font-size: 18px; color: #ccc; margin: 4px 0; }
+#endBest { font-size: 14px; color: #f0c040; margin: 6px 0 16px 0; }
+
+/* ── Statisztika képernyő ── */
+#statsScreen {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    min-height: 100%;
+    padding: 30px 20px 80px 20px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+#statsScreen h2 { font-size: 26px; margin-bottom: 20px; color: rgb(255, 255, 180); }
+
+#statsContent {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.statsGroup {
+    background-color: #111;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 16px 20px;
+    min-width: 300px;
+    text-align: left;
+}
+
+.statsGroup h3 {
+    font-size: 14px;
+    color: #888;
+    margin: 0 0 10px 0;
+    border-bottom: 1px solid #333;
+    padding-bottom: 6px;
+}
+
+.statsEmpty { color: #555; font-size: 13px; font-style: italic; text-align: center; padding: 20px; }
+
+.statsTable { width: 100%; border-collapse: collapse; font-size: 14px; }
+
+.statsTable th {
+    color: #666;
+    font-weight: normal;
+    padding: 3px 8px;
+    text-align: left;
+    font-size: 12px;
+}
+
+.statsTable th:first-child { width: 24px; text-align: right; }
+.statsTable th:nth-child(4), .statsTable th:nth-child(5) { text-align: right; }
+
+.statsTable td { padding: 5px 8px; color: #ccc; vertical-align: middle; }
+.statsTable td:first-child { color: #555; width: 24px; text-align: right; }
+.statsTable td:nth-child(4), .statsTable td:nth-child(5) { text-align: right; color: #aaa; }
+
+.statsShipCell { width: 36px; padding: 3px 4px !important; }
+.statsShipCell img { display: block; }
+
+.statsTable tr.newResult td { color: #4fc3f7; font-weight: bold; }
+.statsTable tr.newResult td:first-child { color: #4fc3f7; }
+.statsTable tr.oldResult td { color: #f0c040; font-style: italic; }
+.statsTable tr.oldResult td:first-child { color: #f0c040; }
