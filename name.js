@@ -1,60 +1,56 @@
-//name.js
+// name.js
 
 let playerName = "Névtelen űrhajós kapitány";
 
 export function setupNameManagement() {
-    const playerNameDisplay = document.getElementById("playerName");
-    const currentPlayerName = document.getElementById("currentPlayerName");
-    const editNameButton = document.getElementById("editNameButton");
-    const nameModal = document.getElementById("nameModal");
-    const playerNameInput = document.getElementById("playerNameInput");
-    const saveNameButton = document.getElementById("saveNameButton");
-    const cancelNameButton = document.getElementById("cancelNameButton");
-    const resetNameButton = document.getElementById("resetNameButton");
+    const playerNameDisplay  = document.getElementById("playerName");
+    const currentPlayerName  = document.getElementById("currentPlayerName");
+    const profileNameDisplay = document.getElementById("profileNameDisplay");
+    const editProfileButton  = document.getElementById("editProfileButton");
+    const playerNameInput    = document.getElementById("playerNameInput");
+    const saveNameButton     = document.getElementById("saveNameButton");
+    const cancelNameButton   = document.getElementById("cancelNameButton");
+    const resetNameButton    = document.getElementById("resetNameButton");
 
-    if (!playerNameDisplay || !currentPlayerName || !editNameButton || !nameModal || 
-        !playerNameInput || !saveNameButton || !cancelNameButton || !resetNameButton) {
-        console.error("Egy vagy több szükséges elem nem található.");
-        return;
-    }
-
-    // Név megjelenítése
     function updatePlayerNameDisplays() {
-        playerNameDisplay.textContent = playerName;
-        currentPlayerName.textContent = playerName;
+        if (playerNameDisplay)  playerNameDisplay.textContent  = playerName;
+        if (currentPlayerName)  currentPlayerName.textContent  = playerName;
+        if (profileNameDisplay) profileNameDisplay.textContent = playerName;
     }
 
-    // "Név módosítása" gomb eseménykezelő
-    editNameButton.addEventListener("click", () => {
-        nameModal.style.display = "block";
+    function openProfile() {
         document.getElementById('startScreen').style.display = 'none';
-        playerNameInput.value = playerName === "Névtelen űrhajós kapitány" ? "" : playerName;
-    });
+        document.getElementById('profileScreen').style.display = 'block';
+        document.getElementById('backButtonScreen').style.display = 'block';
+        if (playerNameInput) {
+            playerNameInput.value = playerName === "Névtelen űrhajós kapitány" ? "" : playerName;
+        }
+        updatePlayerNameDisplays();
+    }
 
-    // Mentés gomb eseménykezelő
-    saveNameButton.addEventListener("click", () => {
-        const newName = playerNameInput.value.trim();
+    function closeProfile() {
+        document.getElementById('profileScreen').style.display = 'none';
+        document.getElementById('startScreen').style.display = 'block';
+        document.getElementById('backButtonScreen').style.display = 'none';
+    }
+
+    if (editProfileButton) editProfileButton.addEventListener("click", openProfile);
+
+    if (saveNameButton) saveNameButton.addEventListener("click", () => {
+        const newName = playerNameInput ? playerNameInput.value.trim() : '';
         playerName = newName || "Névtelen űrhajós kapitány";
         updatePlayerNameDisplays();
-        nameModal.style.display = "none";
-        document.getElementById('startScreen').style.display = 'block';
+        closeProfile();
     });
 
-    // Mégse gomb eseménykezelő
-    cancelNameButton.addEventListener("click", () => {
-        nameModal.style.display = "none";
-        document.getElementById('startScreen').style.display = 'block';
-    });
+    if (cancelNameButton) cancelNameButton.addEventListener("click", closeProfile);
 
-    // Név törlése gomb eseménykezelő
-    resetNameButton.addEventListener("click", () => {
+    if (resetNameButton) resetNameButton.addEventListener("click", () => {
         playerName = "Névtelen űrhajós kapitány";
         updatePlayerNameDisplays();
-        nameModal.style.display = "none";
-        document.getElementById('startScreen').style.display = 'block';
+        closeProfile();
     });
 
-    // Kezdeti frissítés
     updatePlayerNameDisplays();
 }
 

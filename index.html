@@ -14,23 +14,29 @@
         <div id="versionSection">
             <p id="currentVersion"></p>
         </div>
-        <h1>Space Typer</h1>
+        <img src="pictures/logo_800.png" alt="Space Typer" id="logoMain">
 
         <div id="playerAndShipSection">
-            <div id="playerNameSection">
-                <p id="playerNameDisplay">
-                    Játékos: <span id="playerName">Névtelen űrhajó kapitány</span>
-                    <button id="editNameButton">Név módosítása</button>
-                </p>
-            </div>
+            <p id="playerNameDisplay">
+                Játékos: <span id="playerName">Névtelen űrhajós kapitány</span>
+            </p>
             <div id="spaceshipSection">
                 <img id="spaceshipPreview" src="" alt="Űrhajó" width="60" height="60">
                 <span id="spaceshipName"></span>
-                <button id="editSpaceshipButton">Űrhajó választása</button>
             </div>
+            <button id="editProfileButton">Játékos beállítása</button>
         </div>
 
-        <div id="levelButtonsContainer"></div>
+        <div id="levelButtonsContainer">
+            <div class="levelGroup">
+                <p class="levelGroupLabel">Numerikus</p>
+                <div class="levelGroupButtons" id="numericButtons"></div>
+            </div>
+            <div class="levelGroup">
+                <p class="levelGroupLabel">Alfanumerikus</p>
+                <div class="levelGroupButtons" id="alphaButtons"></div>
+            </div>
+        </div>
 
         <div id="startScreenButtons">
             <button id="statsButton">Eredmények</button>
@@ -39,7 +45,7 @@
     </div>
 
     <div id="game" style="display: none;">
-        <h2>Space Typer</h2>
+        <img src="pictures/logo_400.png" alt="Space Typer" class="logoSmall">
         <p id="currentPlayer">Játékos: <span id="currentPlayerName">Névtelen űrhajós kapitány</span></p>
         <div id="status">
             <p>Kezdő szint: <span id="level1">0</span></p>
@@ -55,20 +61,30 @@
     </div>
 
     <div id="levelInfo" style="display: none;">
+        <img src="pictures/logo_400.png" alt="Space Typer" class="logoSmall">
         <h3>Szint Információk</h3>
         <p id="requiredKeys">Szükséges billentyűk: <span id="keyList"></span></p>
-        <img src="pictures/keyboard_2.png" alt="Keyboard guide">
+        <img src="pictures/keyboard_2.png" alt="Keyboard guide" id="keyboardGuide">
         <p>Nyomd meg a szóközt a kezdéshez.</p>
     </div>
 
     <div id="ujjrendScreen" style="display: none;">
+        <img src="pictures/logo_400.png" alt="Space Typer" class="logoSmall">
         <h2>Ujjrend</h2>
-        <img src="pictures/keyboard_1.png" alt="Ujjrend">
+        <img src="pictures/keyboard_1.png" alt="Ujjrend" id="ujjrendImg">
     </div>
 
     <div id="versionDetails" style="display: none;">
+        <img src="pictures/logo_400.png" alt="Space Typer" class="logoSmall">
         <h2>Verzió információk</h2>
         <div id="versionHistory"></div>
+    </div>
+
+    <div id="statsScreen" style="display: none;">
+        <img src="pictures/logo_400.png" alt="Space Typer" class="logoSmall">
+        <h2>Eredménylista</h2>
+        <div id="statsContent"></div>
+        <button id="statsBackButton">Vissza a főmenübe</button>
     </div>
 
     <div id="backButtonScreen" style="display: none;">
@@ -85,27 +101,25 @@
         <button id="endMenuButton">Főmenü</button>
     </div>
 
-    <div id="statsScreen" style="display: none;">
-        <h2>Eredménylista</h2>
-        <div id="statsContent"></div>
-        <button id="statsBackButton">Vissza a főmenübe</button>
-    </div>
+    <!-- Profil oldal: név + űrhajó együtt -->
+    <div id="profileScreen" style="display: none;">
+        <img src="pictures/logo_400.png" alt="Space Typer" class="logoSmall">
+        <h2>Játékos beállítása</h2>
+        <p id="profileCurrentName">Aktuális játékos: <span id="profileNameDisplay"></span></p>
 
-    <div id="nameModal" style="display: none;">
-        <div id="nameModalContent">
-            <h3>Név módosítása</h3>
+        <div id="profileNameSection">
+            <h3>Játékos neve</h3>
             <input type="text" id="playerNameInput" placeholder="Add meg a neved!">
-            <button id="saveNameButton">Mentés</button>
-            <button id="cancelNameButton">Mégse</button>
-            <button id="resetNameButton">Név törlése</button>
+            <div>
+                <button id="saveNameButton">Mentés</button>
+                <button id="cancelNameButton">Mégse</button>
+                <button id="resetNameButton">Név törlése</button>
+            </div>
         </div>
-    </div>
 
-    <div id="spaceshipModal" style="display: none;">
-        <div id="spaceshipModalContent">
+        <div id="profileShipSection">
             <h3>Válassz űrhajót</h3>
             <div id="spaceshipGrid"></div>
-            <button id="cancelSpaceshipButton">Mégse</button>
         </div>
     </div>
 

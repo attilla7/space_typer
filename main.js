@@ -24,9 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('backButton').addEventListener('click', () => backback());
 
-    const levelButtonsContainer = document.getElementById('levelButtonsContainer');
-    levelButtonsContainer.innerHTML = '';
-
     displayCurrentVersion();
     document.getElementById('currentVersion').addEventListener('click', showVersionInfo);
 
@@ -58,4 +55,5 @@ function backback() {
     document.getElementById('statsScreen').style.display = 'none';
     document.getElementById('endScreen').style.display = 'none';
     document.getElementById('ujjrendScreen').style.display = 'none';
+    document.getElementById('profileScreen').style.display = 'none';
 }

@@ -1,12 +1,14 @@
 {
-    "current_version": "v0.7",
+    "current_version": "v1.0",
     "versions": [
         {
             "version": "1.0",
-            "date": "...",
+            "date": "2026-04-26",
             "description": [
-                "Online eredménylista",
-                "Online elhelyezés"
+                "Finomítások",
+                "Online elhelyezés: https://spacetyper.netlify.app/",
+                "Online eredménylista - Supabase",
+                "Közzététel"
             ]
         },
         {

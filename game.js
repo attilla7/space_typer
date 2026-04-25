@@ -79,10 +79,7 @@ function getLevelRowCenter(index, total) {
 }
 
 function setSpaceshipRow(levelNum) {
-    console.log('setSpaceshipRow hívva:', levelNum, 'topOffset:', topOffset, 'backButtonHeight:', backButtonHeight);
     const { index, total } = getLevelGroupInfo(levelNum);
-    const y = getLevelRowCenter(index, total);
-    console.log('setSpaceshipRow:', levelNum, 'index:', index, 'total:', total, 'y:', y);
     spaceshipHeight = getLevelRowCenter(index, total);
     spaceshipPosition = 0;
     const spaceship = document.getElementById('spaceship');
@@ -91,7 +88,6 @@ function setSpaceshipRow(levelNum) {
 }
 
 function startFloatAnimation(centerX, centerY) {
-    console.log('startFloatAnimation centerY:', centerY);
     stopFloatAnimation();
     const spaceship = document.getElementById('spaceship');
     if (!spaceship) return;
@@ -218,7 +214,7 @@ function nextLevel() {
     updateDisplays(startLevel, score, tasksLeft, actualLevel.level);
 }
 
-function finishGroup() {
+async function finishGroup() {
     currentLetter = '';
     stopFloatAnimation();
     stopTimer();
@@ -227,28 +223,36 @@ function finishGroup() {
     const playerName = getPlayerName();
     const shipId = getSelectedShipId();
     const groupKey = getLevelGroupKey(startLevel);
-    const previousBest = saveResult(groupKey, playerName, groupTime, score, shipId);
 
-    totalGroupTime = 0;
-    pendingResult = { groupKey, playerName, time: groupTime, score, shipId, previousBest };
-
+    // Végképernyő azonnal megjelenik mentés előtt
     document.getElementById('game').style.display = 'none';
     document.getElementById('backButtonScreen').style.display = 'none';
     document.getElementById('endScreen').style.display = 'block';
-
     document.getElementById('endPlayer').textContent = `Játékos: ${playerName}`;
     document.getElementById('endScore').textContent = `Pontszám: ${score}`;
     document.getElementById('endTime').textContent = `Idő: ${groupTime.toFixed(2)} s`;
+    document.getElementById('endBest').style.display = 'none';
 
-    const endBestEl = document.getElementById('endBest');
-    if (previousBest !== null && groupTime < previousBest.time) {
-        endBestEl.textContent = `Új rekord! (előző: ${previousBest.time.toFixed(2)} s)`;
-        endBestEl.style.display = 'block';
-    } else if (previousBest !== null) {
-        endBestEl.textContent = `Legjobb időd ebben a csoportban: ${previousBest.time.toFixed(2)} s`;
-        endBestEl.style.display = 'block';
-    } else {
-        endBestEl.style.display = 'none';
+    totalGroupTime = 0;
+
+    try {
+        const previousBest = await saveResult(groupKey, playerName, groupTime, score, shipId);
+
+        pendingResult = { groupKey, playerName, time: groupTime, score, shipId, previousBest };
+
+        const endBestEl = document.getElementById('endBest');
+        if (previousBest !== null) {
+            const improved = score > previousBest.score ||
+                (score === previousBest.score && groupTime < previousBest.time);
+            if (improved) {
+                endBestEl.textContent = `Új rekord! (előző: ${previousBest.score} pt, ${previousBest.time.toFixed(2)} s)`;
+            } else {
+                endBestEl.textContent = `Legjobb eredményed: ${previousBest.score} pt, ${previousBest.time.toFixed(2)} s`;
+            }
+            endBestEl.style.display = 'block';
+        }
+    } catch (e) {
+        pendingResult = { groupKey, playerName, time: groupTime, score, shipId, previousBest: null };
     }
 }
 

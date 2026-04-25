@@ -57,7 +57,6 @@ export function getSelectedShipImagePath() {
     return getShipImagePath(selectedShipId);
 }
 
-// Véletlenszerű űrhajó betöltéskor
 export function initSpaceship() {
     const randomId = Math.floor(Math.random() * 40) + 1;
     selectedShipId = randomId;
@@ -65,36 +64,32 @@ export function initSpaceship() {
 }
 
 function updateSpaceshipDisplay() {
-    // Játékban az űrhajó kép frissítése
     const spaceshipEl = document.getElementById('spaceship');
-    if (spaceshipEl) {
-        spaceshipEl.src = getSelectedShipImagePath();
-    }
-    // Főoldalon az előnézet frissítése
+    if (spaceshipEl) spaceshipEl.src = getSelectedShipImagePath();
+
     const previewEl = document.getElementById('spaceshipPreview');
-    if (previewEl) {
-        previewEl.src = getSelectedShipImagePath();
-    }
-    // Főoldalon a név frissítése
+    if (previewEl) previewEl.src = getSelectedShipImagePath();
+
     const nameEl = document.getElementById('spaceshipName');
     if (nameEl) {
         const ship = SHIPS.find(s => s.id === selectedShipId);
         nameEl.textContent = ship ? ship.name : '';
     }
+
+    const grid = document.getElementById('spaceshipGrid');
+    if (grid) {
+        grid.querySelectorAll('.spaceshipGridItem').forEach(item => {
+            item.classList.toggle('selected', parseInt(item.dataset.id) === selectedShipId);
+        });
+    }
 }
 
-// Választó modal felépítése és kezelése
 export function setupSpaceshipSelector() {
     initSpaceship();
 
-    const editBtn = document.getElementById('editSpaceshipButton');
-    const modal = document.getElementById('spaceshipModal');
     const grid = document.getElementById('spaceshipGrid');
-    const cancelBtn = document.getElementById('cancelSpaceshipButton');
+    if (!grid) return;
 
-    if (!editBtn || !modal || !grid || !cancelBtn) return;
-
-    // Grid feltöltése
     SHIPS.forEach(ship => {
         const item = document.createElement('div');
         item.className = 'spaceshipGridItem';
@@ -115,24 +110,8 @@ export function setupSpaceshipSelector() {
         item.addEventListener('click', () => {
             selectedShipId = ship.id;
             updateSpaceshipDisplay();
-            modal.style.display = 'none';
-            document.getElementById('startScreen').style.display = 'block';
         });
 
         grid.appendChild(item);
-    });
-
-    editBtn.addEventListener('click', () => {
-        modal.style.display = 'block';
-        document.getElementById('startScreen').style.display = 'none';
-        // Kiemeljük az aktuálisan kiválasztottat
-        grid.querySelectorAll('.spaceshipGridItem').forEach(item => {
-            item.classList.toggle('selected', parseInt(item.dataset.id) === selectedShipId);
-        });
-    });
-
-    cancelBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-        document.getElementById('startScreen').style.display = 'block';
     });
 }
