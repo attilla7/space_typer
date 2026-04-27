@@ -54,14 +54,14 @@ export function showVersionInfo() {
             techBlock.appendChild(techTitle);
 
             const techList = [
-                'Visual Studio Code',
-                'Photoshop',
-                'ChatGPT',
                 'Claude AI',
-                'Tensor Art',
+                'ChatGPT',
                 'GitHub',
                 'Netlify',
+                'Photoshop',
                 'Supabase',
+                'Tensor Art',
+                'Visual Studio Code',
             ];
 
             const ul = document.createElement('ul');

@@ -1,6 +1,6 @@
 // game.js
 
-import { updateDisplays, showCompletionMessage } from './ui.js';
+import { updateDisplays } from './ui.js';
 import { showLevelInfo } from './levels.js';
 import { startTimer, stopTimer, getTimeElapsed, resetTimer } from './timer.js';
 import { saveResult, getLevelGroupKey, showStats } from './stats.js';
@@ -174,7 +174,6 @@ document.addEventListener('keydown', (event) => {
         spaceshipFlying();
 
         if (tasksLeft <= 0) {
-            showCompletionMessage(actualLevel.level);
             nextLevel();
             return;
         }
@@ -323,12 +322,4 @@ export function startSpaceshipAnimation() {
 export function stopSpaceshipAnimation() {
     clearInterval(spaceshipMoveInterval);
     spaceshipMoveInterval = null;
-}
-
-export function getTotalGroupTime() {
-    return totalGroupTime;
-}
-
-export function setTotalGroupTime(value) {
-    totalGroupTime = value;
 }

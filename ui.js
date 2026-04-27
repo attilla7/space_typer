@@ -1,8 +1,6 @@
 // ui.js
 
-import { getPlayerName } from './name.js';
-import { getTimeElapsed, stopTimer } from './timer.js';
-import { getTotalGroupTime, setTotalGroupTime } from './game.js';
+import { getTimeElapsed } from './timer.js';
 
 export function updateDisplays(level1, score, tasksLeft, level) {
     const timeElapsed = getTimeElapsed().toFixed(2);
@@ -21,11 +19,7 @@ export function updateDisplays(level1, score, tasksLeft, level) {
     document.getElementById('tasksLeft').textContent = tasksLeft;
 }
 
-export function showCompletionMessage(level) {
-    const levelTime = getTimeElapsed();
-    stopTimer();
-
-    let totalGroupTime = getTotalGroupTime();
-    totalGroupTime += levelTime;
-    setTotalGroupTime(totalGroupTime);
+export function showCompletionMessage() {
+    // Timer szándékosan NEM áll meg itt – fut végig az egész szintcsoporton.
+    // Csak a finishGroup()-ban áll meg.
 }
