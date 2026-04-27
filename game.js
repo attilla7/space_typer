@@ -70,7 +70,7 @@ function getLevelRowCenter(index, total) {
     const gameEl = document.getElementById('game');
     const gameHeight = gameEl ? gameEl.clientHeight : window.innerHeight;
 
-    const topLimit = topOffset + 60;
+    const topLimit = topOffset + 100;
     const bottomRaw = gameHeight - backButtonHeight - 10 - spaceshipSize - 10;
     const usableHeight = (bottomRaw - topLimit) * 0.88;
 
@@ -223,13 +223,19 @@ async function finishGroup() {
     const shipId = getSelectedShipId();
     const groupKey = getLevelGroupKey(startLevel);
 
-    // Végképernyő azonnal megjelenik mentés előtt
+    function fmt(sec) {
+        const m  = Math.floor(sec / 60);
+        const s  = Math.floor(sec % 60);
+        const cs = Math.round((sec % 1) * 100);
+        return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}:${String(cs).padStart(2,'0')}`;
+    }
+
     document.getElementById('game').style.display = 'none';
     document.getElementById('backButtonScreen').style.display = 'none';
     document.getElementById('endScreen').style.display = 'block';
     document.getElementById('endPlayer').textContent = `Játékos: ${playerName}`;
     document.getElementById('endScore').textContent = `Pontszám: ${score}`;
-    document.getElementById('endTime').textContent = `Idő: ${groupTime.toFixed(2)} s`;
+    document.getElementById('endTime').textContent = `Idő: ${fmt(groupTime)}`;
     document.getElementById('endBest').style.display = 'none';
 
     totalGroupTime = 0;
@@ -244,9 +250,9 @@ async function finishGroup() {
             const improved = score > previousBest.score ||
                 (score === previousBest.score && groupTime < previousBest.time);
             if (improved) {
-                endBestEl.textContent = `Új rekord! (előző: ${previousBest.score} pt, ${previousBest.time.toFixed(2)} s)`;
+                endBestEl.textContent = `Új rekord! (előző: ${previousBest.score} pt, ${fmt(previousBest.time)})`;
             } else {
-                endBestEl.textContent = `Legjobb eredményed: ${previousBest.score} pt, ${previousBest.time.toFixed(2)} s`;
+                endBestEl.textContent = `Legjobb eredményed: ${previousBest.score} pt, ${fmt(previousBest.time)}`;
             }
             endBestEl.style.display = 'block';
         }

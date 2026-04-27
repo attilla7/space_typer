@@ -251,7 +251,10 @@ async function renderStats(currentResult) {
 }
 
 function formatTime(seconds) {
-    return seconds.toFixed(2) + ' s';
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    const cs = Math.round((seconds % 1) * 100);
+    return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}:${String(cs).padStart(2, '0')}`;
 }
 
 function formatDate(isoString) {
