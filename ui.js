@@ -1,11 +1,9 @@
 // ui.js
 
-import { getTimeElapsed } from './timer.js';
+import { getPlayerName } from './name.js';
+import { getTotalGroupTime, setTotalGroupTime, maxScore } from './game.js';
 
 export function updateDisplays(level1, score, tasksLeft, level) {
-    const timeElapsed = getTimeElapsed().toFixed(2);
-    document.getElementById('timeElapsed').textContent = `Idő: ${timeElapsed} s`;
-
     if (level > 100 && level < 113) {
         document.getElementById('level').textContent = level + ' / 101-112';
     } else if (level > 0 && level < 81) {
@@ -15,11 +13,9 @@ export function updateDisplays(level1, score, tasksLeft, level) {
     }
 
     document.getElementById('level1').textContent = level1;
-    document.getElementById('score').textContent = score;
+    document.getElementById('score').textContent = maxScore > 0 ? `${score} / ${maxScore}` : score;
     document.getElementById('tasksLeft').textContent = tasksLeft;
 }
 
-export function showCompletionMessage() {
-    // Timer szándékosan NEM áll meg itt – fut végig az egész szintcsoporton.
-    // Csak a finishGroup()-ban áll meg.
+export function showCompletionMessage(level) {
 }

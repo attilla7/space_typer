@@ -57,6 +57,7 @@ export function getSelectedShipImagePath() {
     return getShipImagePath(selectedShipId);
 }
 
+// Véletlenszerű űrhajó betöltéskor
 export function initSpaceship() {
     const randomId = Math.floor(Math.random() * 40) + 1;
     selectedShipId = randomId;
@@ -64,32 +65,32 @@ export function initSpaceship() {
 }
 
 function updateSpaceshipDisplay() {
+    // Játékban az űrhajó kép frissítése
     const spaceshipEl = document.getElementById('spaceship');
-    if (spaceshipEl) spaceshipEl.src = getSelectedShipImagePath();
-
+    if (spaceshipEl) {
+        spaceshipEl.src = getSelectedShipImagePath();
+    }
+    // Főoldalon az előnézet frissítése
     const previewEl = document.getElementById('spaceshipPreview');
-    if (previewEl) previewEl.src = getSelectedShipImagePath();
-
+    if (previewEl) {
+        previewEl.src = getSelectedShipImagePath();
+    }
+    // Főoldalon a név frissítése
     const nameEl = document.getElementById('spaceshipName');
     if (nameEl) {
         const ship = SHIPS.find(s => s.id === selectedShipId);
         nameEl.textContent = ship ? ship.name : '';
     }
-
-    const grid = document.getElementById('spaceshipGrid');
-    if (grid) {
-        grid.querySelectorAll('.spaceshipGridItem').forEach(item => {
-            item.classList.toggle('selected', parseInt(item.dataset.id) === selectedShipId);
-        });
-    }
 }
 
+// Választó felépítése és kezelése
 export function setupSpaceshipSelector() {
     initSpaceship();
 
     const grid = document.getElementById('spaceshipGrid');
     if (!grid) return;
 
+    // Grid feltöltése
     SHIPS.forEach(ship => {
         const item = document.createElement('div');
         item.className = 'spaceshipGridItem';
@@ -110,6 +111,10 @@ export function setupSpaceshipSelector() {
         item.addEventListener('click', () => {
             selectedShipId = ship.id;
             updateSpaceshipDisplay();
+            // Kiemeljük a kiválasztottat
+            grid.querySelectorAll('.spaceshipGridItem').forEach(el => {
+                el.classList.toggle('selected', parseInt(el.dataset.id) === selectedShipId);
+            });
         });
 
         grid.appendChild(item);

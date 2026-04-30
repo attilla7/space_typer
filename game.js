@@ -1,6 +1,6 @@
 // game.js
 
-import { updateDisplays } from './ui.js';
+import { updateDisplays, showCompletionMessage } from './ui.js';
 import { showLevelInfo } from './levels.js';
 import { startTimer, stopTimer, getTimeElapsed, resetTimer } from './timer.js';
 import { saveResult, getLevelGroupKey, showStats } from './stats.js';
@@ -27,6 +27,7 @@ let floatInterval = null;
 let pendingResult = null;
 let topOffset = 190;
 let backButtonHeight = 70;
+export let maxScore = 0;
 
 const LEVEL_GROUPS_DEF = [
     { starts: 101, ends: 103 },
@@ -70,7 +71,7 @@ function getLevelRowCenter(index, total) {
     const gameEl = document.getElementById('game');
     const gameHeight = gameEl ? gameEl.clientHeight : window.innerHeight;
 
-    const topLimit = topOffset + 100;
+    const topLimit = topOffset + 60;
     const bottomRaw = gameHeight - backButtonHeight - 10 - spaceshipSize - 10;
     const usableHeight = (bottomRaw - topLimit) * 0.88;
 
@@ -79,7 +80,10 @@ function getLevelRowCenter(index, total) {
 }
 
 function setSpaceshipRow(levelNum) {
+    console.log('setSpaceshipRow hívva:', levelNum, 'topOffset:', topOffset, 'backButtonHeight:', backButtonHeight);
     const { index, total } = getLevelGroupInfo(levelNum);
+    const y = getLevelRowCenter(index, total);
+    console.log('setSpaceshipRow:', levelNum, 'index:', index, 'total:', total, 'y:', y);
     spaceshipHeight = getLevelRowCenter(index, total);
     spaceshipPosition = 0;
     const spaceship = document.getElementById('spaceship');
@@ -88,6 +92,7 @@ function setSpaceshipRow(levelNum) {
 }
 
 function startFloatAnimation(centerX, centerY) {
+    console.log('startFloatAnimation centerY:', centerY);
     stopFloatAnimation();
     const spaceship = document.getElementById('spaceship');
     if (!spaceship) return;
@@ -145,6 +150,15 @@ export function startGame(selectedLevel) {
     tasksLeft = actualLevel.tasks;
     characters = actualLevel.characterCount;
 
+    const group = LEVEL_GROUPS_DEF.find(g => selectedLevel >= g.starts && selectedLevel <= g.ends);
+    if (group) {
+        maxScore = levelData
+            .filter(l => l.level >= group.starts && l.level <= group.ends)
+            .reduce((sum, l) => sum + l.tasks, 0);
+    } else {
+        maxScore = actualLevel.tasks;
+    }
+
     showLevelInfo(actualLevel);
 }
 
@@ -156,7 +170,9 @@ function generateTarget(keys) {
     }
     currentLetter = keySequence.join('');
     taskPoisoned = false;
-    document.getElementById('targetText').textContent = `Nyomd meg: ${currentLetter.toUpperCase()}`;
+    const targetEl = document.getElementById('targetText');
+    targetEl.textContent = `Nyomd meg: ${currentLetter.toUpperCase()}`;
+    targetEl.style.color = 'white';
 }
 
 document.addEventListener('keydown', (event) => {
@@ -174,6 +190,7 @@ document.addEventListener('keydown', (event) => {
         spaceshipFlying();
 
         if (tasksLeft <= 0) {
+            showCompletionMessage(actualLevel.level);
             nextLevel();
             return;
         }
@@ -181,7 +198,10 @@ document.addEventListener('keydown', (event) => {
         updateDisplays(startLevel, score, tasksLeft, actualLevel.level);
 
     } else {
-        if (event.key.length === 1) taskPoisoned = true;
+        if (event.key.length === 1) {
+            taskPoisoned = true;
+            document.getElementById('targetText').style.color = '#E24B4A';
+        }
     }
 });
 
@@ -213,7 +233,7 @@ function nextLevel() {
     updateDisplays(startLevel, score, tasksLeft, actualLevel.level);
 }
 
-async function finishGroup() {
+function finishGroup() {
     currentLetter = '';
     stopFloatAnimation();
     stopTimer();
@@ -222,42 +242,28 @@ async function finishGroup() {
     const playerName = getPlayerName();
     const shipId = getSelectedShipId();
     const groupKey = getLevelGroupKey(startLevel);
+    const previousBest = saveResult(groupKey, playerName, groupTime, score, shipId);
 
-    function fmt(sec) {
-        const m  = Math.floor(sec / 60);
-        const s  = Math.floor(sec % 60);
-        const cs = Math.round((sec % 1) * 100);
-        return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}:${String(cs).padStart(2,'0')}`;
-    }
+    totalGroupTime = 0;
+    pendingResult = { groupKey, playerName, time: groupTime, score, shipId, previousBest };
 
     document.getElementById('game').style.display = 'none';
     document.getElementById('backButtonScreen').style.display = 'none';
     document.getElementById('endScreen').style.display = 'block';
+
     document.getElementById('endPlayer').textContent = `Játékos: ${playerName}`;
-    document.getElementById('endScore').textContent = `Pontszám: ${score}`;
-    document.getElementById('endTime').textContent = `Idő: ${fmt(groupTime)}`;
-    document.getElementById('endBest').style.display = 'none';
+    document.getElementById('endScore').textContent = `Pontszám: ${score} / ${maxScore}`;
+    document.getElementById('endTime').textContent = `Idő: ${groupTime.toFixed(2)} s`;
 
-    totalGroupTime = 0;
-
-    try {
-        const previousBest = await saveResult(groupKey, playerName, groupTime, score, shipId);
-
-        pendingResult = { groupKey, playerName, time: groupTime, score, shipId, previousBest };
-
-        const endBestEl = document.getElementById('endBest');
-        if (previousBest !== null) {
-            const improved = score > previousBest.score ||
-                (score === previousBest.score && groupTime < previousBest.time);
-            if (improved) {
-                endBestEl.textContent = `Új rekord! (előző: ${previousBest.score} pt, ${fmt(previousBest.time)})`;
-            } else {
-                endBestEl.textContent = `Legjobb eredményed: ${previousBest.score} pt, ${fmt(previousBest.time)}`;
-            }
-            endBestEl.style.display = 'block';
-        }
-    } catch (e) {
-        pendingResult = { groupKey, playerName, time: groupTime, score, shipId, previousBest: null };
+    const endBestEl = document.getElementById('endBest');
+    if (previousBest !== null && groupTime < previousBest.time) {
+        endBestEl.textContent = `Új rekord! (előző: ${previousBest.time.toFixed(2)} s)`;
+        endBestEl.style.display = 'block';
+    } else if (previousBest !== null) {
+        endBestEl.textContent = `Legjobb időd ebben a csoportban: ${previousBest.time.toFixed(2)} s`;
+        endBestEl.style.display = 'block';
+    } else {
+        endBestEl.style.display = 'none';
     }
 }
 
@@ -291,12 +297,16 @@ export function levelStart(level) {
             const targetEl = document.getElementById('targetText');
             const backEl = document.getElementById('backButtonScreen');
 
-            let measuredTop = 20;
-            if (h2El) measuredTop += h2El.offsetHeight + 8;
-            if (playerEl) measuredTop += playerEl.offsetHeight + 4;
-            if (statusEl) measuredTop += statusEl.offsetHeight + 8;
-            if (targetEl) measuredTop += targetEl.offsetHeight + 8;
-            topOffset = measuredTop > 80 ? measuredTop : 190;
+            const gameRect = gameEl ? gameEl.getBoundingClientRect() : { top: 0 };
+            let bottomEdge = 0;
+            [h2El, playerEl, statusEl, targetEl].forEach(el => {
+                if (el) {
+                    const rect = el.getBoundingClientRect();
+                    const elBottom = rect.bottom - gameRect.top;
+                    if (elBottom > bottomEdge) bottomEdge = elBottom;
+                }
+            });
+            topOffset = bottomEdge > 80 ? bottomEdge + 12 : 190;
             backButtonHeight = backEl ? backEl.offsetHeight : 70;
 
             setSpaceshipRow(level.level);
@@ -328,4 +338,12 @@ export function startSpaceshipAnimation() {
 export function stopSpaceshipAnimation() {
     clearInterval(spaceshipMoveInterval);
     spaceshipMoveInterval = null;
+}
+
+export function getTotalGroupTime() {
+    return totalGroupTime;
+}
+
+export function setTotalGroupTime(value) {
+    totalGroupTime = value;
 }
