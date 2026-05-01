@@ -21,7 +21,6 @@ export function setupNameManagement() {
     function openProfile() {
         document.getElementById('startScreen').style.display = 'none';
         document.getElementById('profileScreen').style.display = 'block';
-        document.getElementById('backButtonScreen').style.display = 'block';
         if (playerNameInput) {
             playerNameInput.value = playerName === "Névtelen űrhajós kapitány" ? "" : playerName;
         }
@@ -31,7 +30,6 @@ export function setupNameManagement() {
     function closeProfile() {
         document.getElementById('profileScreen').style.display = 'none';
         document.getElementById('startScreen').style.display = 'block';
-        document.getElementById('backButtonScreen').style.display = 'none';
     }
 
     if (editProfileButton) editProfileButton.addEventListener("click", openProfile);

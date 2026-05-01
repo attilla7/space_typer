@@ -64,6 +64,7 @@
         <img src="pictures/logo_400.png" alt="Space Typer" class="logoSmall">
         <h3>Szint Információk</h3>
         <p id="requiredKeys">Szükséges billentyűk: <span id="keyList"></span></p>
+        <p id="levelInfoStats"></p>
         <p>Nyomd meg a szóközt a kezdéshez.</p>
         <img src="pictures/keyboard_2.png" alt="Keyboard guide" id="keyboardGuide">
     </div>
@@ -84,21 +85,23 @@
         <img src="pictures/logo_400.png" alt="Space Typer" class="logoSmall">
         <h2>Eredménylista</h2>
         <div id="statsContent"></div>
-        <button id="statsBackButton">Vissza a főmenübe</button>
     </div>
 
-    <div id="backButtonScreen" style="display: none;">
-        <button id="backButton">Vissza</button>
-    </div>
 
     <div id="endScreen" style="display: none;">
-        <h2>Szintcsoport teljesítve!</h2>
-        <p id="endPlayer"></p>
-        <p id="endScore"></p>
-        <p id="endTime"></p>
-        <p id="endBest"></p>
-        <button id="endStatsButton">Eredmények megtekintése</button>
-        <button id="endMenuButton">Főmenü</button>
+        <div id="endWindow">
+            <h2>Szintcsoport teljesítve!</h2>
+            <p id="endPlayer"></p>
+            <p id="endScore"></p>
+            <p id="endTime"></p>
+            <p id="endBest"></p>
+            <div id="endStatsContent"></div>
+            <div id="endButtons">
+                <button id="endRestartButton">Újrakezdés</button>
+                <button id="endStatsButton">Részletes eredmények</button>
+                <button id="endMenuButton">Főoldal</button>
+            </div>
+        </div>
     </div>
 
     <!-- Profil oldal: név + űrhajó együtt -->

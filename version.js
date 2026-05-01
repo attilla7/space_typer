@@ -17,7 +17,6 @@ export function displayCurrentVersion() {
 export function showVersionInfo() {
     document.getElementById('startScreen').style.display = 'none';
     document.getElementById('versionDetails').style.display = 'block';
-    document.getElementById('backButtonScreen').style.display = 'block';
 
     if (versionLoaded === 'loaded') return;
 

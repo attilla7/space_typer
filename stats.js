@@ -45,20 +45,18 @@ async function supabaseFetch(path, options = {}) {
         const err = await res.text();
         throw new Error(`Supabase hiba: ${res.status} ${err}`);
     }
-    // 204 No Content esetén nincs body
     if (res.status === 204) return null;
     return res.json();
 }
 
-// Minden eredmény mentése (statisztika célra minden futás bekerül)
-// Visszaadja a korábbi legjobb rekordot vagy null-t
+// Eredmény mentése – visszaadja a korábbi legjobb rekordot vagy null-t
 export async function saveResult(groupKey, playerName, time, score, shipId) {
     const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
-    // 1. Mindig mentjük az új futást
-    await supabaseFetch('leaderboard', {
+    // 1. Új futás mentése, visszakérjük az achieved_at-et
+    const inserted = await supabaseFetch('leaderboard?select=achieved_at', {
         method: 'POST',
-        headers: { 'Prefer': 'return=minimal' },
+        headers: { 'Prefer': 'return=representation' },
         body: JSON.stringify({
             name: playerName,
             ship_id: shipId || null,
@@ -69,17 +67,22 @@ export async function saveResult(groupKey, playerName, time, score, shipId) {
         }),
     });
 
-    // 2. Lekérjük a játékos eddigi legjobb eredményét ebben a csoportban
-    // (az éppen mentett sor előtti legjobb – azaz ahol score nagyobb VAGY
-    //  score egyenlő és time kisebb, de ez bonyolult lenne SQL-ben,
-    //  ezért lekérjük az összes korábbi sort és JS-ben döntünk)
+    const savedAt = inserted && inserted[0] ? inserted[0].achieved_at : now;
+
+    // 2. Összes korábbi futás lekérése – az éppen mentett kizárva
     const rows = await supabaseFetch(
-        `leaderboard?mode=eq.${groupKey}&name=eq.${encodeURIComponent(playerName)}&order=score.desc,time.asc`
+        `leaderboard?mode=eq.${groupKey}&name=eq.${encodeURIComponent(playerName)}&achieved_at=neq.${encodeURIComponent(savedAt)}&order=score.desc,time.asc`
     );
 
-    // Az éppen mentett sor a legújabb – a "korábbi legjobb" a többi sor közül a legjobb
-    // (score desc, time asc rendben az első ami NEM az éppen mentett)
-    const previous = rows && rows.length > 1 ? rows[1] : null;
+    if (!rows || rows.length === 0) return null;
+
+    // Legjobb korábbi eredmény JS-ben kiválasztva
+    const previous = rows.reduce((best, row) => {
+        if (!best) return row;
+        if (row.score > best.score) return row;
+        if (row.score === best.score && row.time < best.time) return row;
+        return best;
+    }, null);
 
     return previous ? {
         time: previous.time,
@@ -89,58 +92,119 @@ export async function saveResult(groupKey, playerName, time, score, shipId) {
 }
 
 // Ranglista lekérése egy csoporthoz – játékosonként csak a legjobb eredmény
-// Rendezés: score desc, time asc
-async function getGroupLeaderboard(groupKey) {
+// topCount: hány helyezett kell (endScreen: 10, statsScreen: 5)
+export async function getGroupLeaderboard(groupKey, topCount) {
     const rows = await supabaseFetch(
         `leaderboard?mode=eq.${groupKey}&order=score.desc,time.asc`
     );
     if (!rows || rows.length === 0) return [];
 
-    // Játékosonként csak a legjobb (score desc, time asc sorrendben az első)
+    // Játékosonként csak a legjobb
     const best = {};
     rows.forEach(row => {
         if (!best[row.name]) {
             best[row.name] = row;
         } else {
-            const current = best[row.name];
-            const isBetter = row.score > current.score ||
-                (row.score === current.score && row.time < current.time);
-            if (isBetter) best[row.name] = row;
+            const cur = best[row.name];
+            if (row.score > cur.score || (row.score === cur.score && row.time < cur.time)) {
+                best[row.name] = row;
+            }
         }
     });
 
     return Object.values(best)
-        .sort((a, b) => b.score - a.score || a.time - b.time);
+        .sort((a, b) => b.score - a.score || a.time - b.time)
+        .slice(0, topCount);
 }
 
-// Legutóbb frissített csoportok lekérése (az eredménylista sorrendjéhez)
+// Legutóbb frissített csoportok lekérése
 async function getRecentlyUpdatedGroups() {
     const rows = await supabaseFetch(
         `leaderboard?select=mode,achieved_at&order=achieved_at.desc`
     );
     if (!rows) return [];
 
-    // Csoportonként a legutóbbi achieved_at
     const latest = {};
     rows.forEach(row => {
         if (!latest[row.mode]) latest[row.mode] = row.achieved_at;
     });
 
-    // Rendezve legutóbbi szerint
     return Object.entries(latest)
         .sort((a, b) => new Date(b[1]) - new Date(a[1]))
         .map(([mode]) => mode);
 }
 
-// Statisztika képernyő megjelenítése
-// currentResult: { groupKey, playerName, time, score, shipId, previousBest } vagy null
+// Játék végi eredménylista az endScreen-en (top 10)
+export async function showEndScreenStats(currentResult) {
+    const container = document.getElementById('endStatsContent');
+    if (!container) return;
+
+    container.innerHTML = '<p class="statsLoading">Eredmények betöltése...</p>';
+
+    try {
+        const leaderboard = await getGroupLeaderboard(currentResult.groupKey, 10);
+        container.innerHTML = '';
+
+        const table = document.createElement('table');
+        table.className = 'statsTable';
+
+        const header = document.createElement('tr');
+        header.innerHTML = '<th>#</th><th colspan="2">Név</th><th>Pont</th><th>Idő</th>';
+        table.appendChild(header);
+
+        let rank = 0;
+        let currentPlayerShownInTop = false;
+
+        leaderboard.forEach(entry => {
+            const isCurrentPlayer = entry.name === currentResult.playerName;
+            let cssClass = '';
+            if (isCurrentPlayer) {
+                const improved = currentResult.previousBest === null ||
+                    currentResult.score > currentResult.previousBest.score ||
+                    (currentResult.score === currentResult.previousBest.score &&
+                     currentResult.time < currentResult.previousBest.time);
+                cssClass = improved ? 'newResult' : 'currentResult';
+            }
+            table.appendChild(createRow(rank + 1, entry.name, entry.time, entry.score, entry.ship_id, null, cssClass));
+            if (isCurrentPlayer) currentPlayerShownInTop = true;
+            rank++;
+        });
+
+        // Korábbi legjobb megjelenítése ha javított
+        if (currentResult.previousBest !== null) {
+            const prev = currentResult.previousBest;
+            const improved = currentResult.score > prev.score ||
+                (currentResult.score === prev.score && currentResult.time < prev.time);
+            if (improved) {
+                table.appendChild(createRow('—', currentResult.playerName + ' (előző)',
+                    prev.time, prev.score, prev.shipId, null, 'oldResult'));
+            }
+        }
+
+        // Ha nem fért a top 10-be
+        if (!currentPlayerShownInTop) {
+            table.appendChild(createRow('—', currentResult.playerName,
+                currentResult.time, currentResult.score, currentResult.shipId, null, 'newResult'));
+            if (currentResult.previousBest !== null) {
+                table.appendChild(createRow('—', currentResult.playerName + ' (előző)',
+                    currentResult.previousBest.time, currentResult.previousBest.score,
+                    currentResult.previousBest.shipId, null, 'oldResult'));
+            }
+        }
+
+        container.appendChild(table);
+    } catch (e) {
+        container.innerHTML = '<p class="statsEmpty">Nem sikerült betölteni az eredményeket.</p>';
+    }
+}
+
+// Teljes statisztika képernyő (top 5 / csoport)
 export async function showStats(currentResult) {
     document.getElementById('startScreen').style.display = 'none';
     document.getElementById('game').style.display = 'none';
     document.getElementById('levelInfo').style.display = 'none';
     document.getElementById('endScreen').style.display = 'none';
     document.getElementById('versionDetails').style.display = 'none';
-    document.getElementById('backButtonScreen').style.display = 'none';
     document.getElementById('statsScreen').style.display = 'block';
 
     const container = document.getElementById('statsContent');
@@ -162,15 +226,12 @@ async function renderStats(currentResult) {
     const container = document.getElementById('statsContent');
     container.innerHTML = '';
 
-    // Csoportok sorrendje: legutóbb frissített elöl
     const recentOrder = await getRecentlyUpdatedGroups();
 
-    // Ha az aktuális csoport nincs a listában, adjuk hozzá az elejére
     if (currentResult && !recentOrder.includes(currentResult.groupKey)) {
         recentOrder.unshift(currentResult.groupKey);
     }
 
-    // Csak azokat a csoportokat mutatjuk amikben van adat (+ aktuális csoport)
     const groupsToShow = recentOrder.filter(key =>
         LEVEL_GROUPS.find(g => getLevelGroupKey(g.startLevel) === key)
     );
@@ -184,7 +245,7 @@ async function renderStats(currentResult) {
         const groupDef = LEVEL_GROUPS.find(g => getLevelGroupKey(g.startLevel) === groupKey);
         if (!groupDef) continue;
 
-        const leaderboard = await getGroupLeaderboard(groupKey);
+        const leaderboard = await getGroupLeaderboard(groupKey, 5);
         const isCurrentGroup = currentResult && currentResult.groupKey === groupKey;
 
         if (leaderboard.length === 0 && !isCurrentGroup) continue;
@@ -203,12 +264,10 @@ async function renderStats(currentResult) {
         header.innerHTML = '<th>#</th><th colspan="2">Név</th><th>Pont</th><th>Idő</th><th>Dátum</th>';
         table.appendChild(header);
 
-        const TOP_COUNT = 5;
         let rank = 0;
         let currentPlayerShownInTop = false;
 
         leaderboard.forEach(entry => {
-            if (rank >= TOP_COUNT) return;
             const isCurrentPlayer = isCurrentGroup && entry.name === currentResult.playerName;
             let cssClass = '';
             if (isCurrentPlayer) {
@@ -216,14 +275,14 @@ async function renderStats(currentResult) {
                     currentResult.score > currentResult.previousBest.score ||
                     (currentResult.score === currentResult.previousBest.score &&
                      currentResult.time < currentResult.previousBest.time);
-                cssClass = improved ? 'newResult' : 'oldResult';
+                cssClass = improved ? 'newResult' : 'currentResult';
             }
             table.appendChild(createRow(rank + 1, entry.name, entry.time, entry.score, entry.ship_id, entry.achieved_at, cssClass));
             if (isCurrentPlayer) currentPlayerShownInTop = true;
             rank++;
         });
 
-        // Régi legjobb külön sorban ha javított
+        // Korábbi legjobb ha javított
         if (isCurrentGroup && currentResult.previousBest !== null) {
             const prev = currentResult.previousBest;
             const improved = currentResult.score > prev.score ||
